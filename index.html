@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المصحف الشامل - القرآن الكريم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--text:#e6edf3;--muted:#8b949e;--border:#30363d;--green:#1a6b3c;--green2:#2d8a56;--gold:#c9a227;--red:#cf222e}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;min-height:100vh;direction:rtl}
+body.light{--bg:#f0ede8;--bg2:#fff;--bg3:#f5f0ea;--text:#1a1a2e;--muted:#555;--border:#d0c8bc;--green:#1a6b3c;--green2:#2d8a56;--gold:#8b6914}
+nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:.55rem 1.25rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;gap:.5rem}
+.nav-brand{font-size:1.1rem;font-weight:900;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+.nav-links{display:flex;gap:.2rem;flex-wrap:wrap}
+.nav-links a{color:var(--muted);text-decoration:none;padding:.35rem .6rem;border-radius:8px;font-size:.8rem;font-weight:600;transition:.2s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{background:var(--green);color:#fff}
+.nav-right{display:flex;align-items:center;gap:.4rem}
+.theme-btn,.hamburger{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.35rem .55rem;border-radius:8px;cursor:pointer;font-size:.85rem}
+.hamburger{display:none}
+.mobile-menu{display:none;position:fixed;top:0;right:0;width:260px;height:100%;background:var(--bg2);border-left:1px solid var(--border);z-index:300;padding:1rem;overflow-y:auto;flex-direction:column;gap:.4rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--text);text-decoration:none;padding:.65rem 1rem;border-radius:10px;font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:.6rem;transition:.2s}
+.mobile-menu a:hover,.mobile-menu a.active{background:var(--green);color:#fff}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:250}
+.overlay.open{display:block}
+.mobile-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.hero{background:linear-gradient(135deg,#0d2818 0%,#1a6b3c 50%,#0d2818 100%);padding:2.5rem 1.5rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-bismillah{font-family:'Amiri',serif;font-size:2rem;color:var(--gold);margin-bottom:.75rem;text-shadow:0 0 30px rgba(201,162,39,.4);position:relative}
+.hero-title{font-size:1.6rem;font-weight:900;color:#fff;margin-bottom:.4rem;position:relative}
+.hero-sub{color:rgba(255,255,255,.7);font-size:.9rem;margin-bottom:1.5rem;position:relative}
+.hero-stats{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;position:relative}
+.stat{text-align:center}
+.stat-num{font-size:1.7rem;font-weight:900;color:var(--gold)}
+.stat-label{font-size:.75rem;color:rgba(255,255,255,.6)}
+.container{max-width:1200px;margin:0 auto;padding:1.5rem 1rem}
+.section-title{font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2.5rem}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem 1.25rem;text-decoration:none;color:var(--text);transition:.3s;display:block;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:var(--card-color,var(--green));border-radius:0 14px 14px 0}
+.card:hover{transform:translateY(-4px);border-color:var(--card-color,var(--green));box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.card-icon{font-size:2rem;margin-bottom:.75rem;display:block}
+.card-title{font-size:1rem;font-weight:700;margin-bottom:.35rem}
+.card-desc{font-size:.8rem;color:var(--muted);line-height:1.6}
+.card-arrow{position:absolute;bottom:1rem;left:1.25rem;color:var(--muted);font-size:.78rem;transition:.2s}
+.card:hover .card-arrow{color:var(--card-color,var(--green));transform:translateX(-4px)}
+.progress-section{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:2.5rem}
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem}
+.progress-label{font-size:.85rem;color:var(--muted)}
+.progress-val{font-size:.85rem;font-weight:700;color:var(--green)}
+.progress-bar{background:var(--bg3);border-radius:99px;height:7px;overflow:hidden;margin-bottom:.4rem}
+.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .5s}
+.quick-surah{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.65rem}
+.surah-btn{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.65rem;text-align:center;cursor:pointer;transition:.2s;text-decoration:none;color:var(--text);display:block}
+.surah-btn:hover{border-color:var(--green);background:var(--bg3)}
+.surah-num{font-size:.65rem;color:var(--muted);margin-bottom:.2rem}
+.surah-name{font-family:'Amiri',serif;font-size:1rem;font-weight:700}
+.surah-info{font-size:.65rem;color:var(--muted);margin-top:.15rem}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:1.25rem;text-align:center;color:var(--muted);font-size:.78rem;margin-top:2rem}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex;align-items:center}.hero-bismillah{font-size:1.6rem}.hero-title{font-size:1.2rem}.hero-stats{gap:1rem}.grid{grid-template-columns:1fr 1fr}.quick-surah{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand"><i class="fas fa-book-open"></i> المصحف الشامل</a>
+  <div class="nav-links">
+    <a href="index.html" class="active"><i class="fas fa-home"></i> الرئيسية</a>
+    <a href="read.html"><i class="fas fa-quran"></i> القراءة</a>
+    <a href="listen.html"><i class="fas fa-headphones"></i> الاستماع</a>
+    <a href="memorize.html"><i class="fas fa-brain"></i> الحفظ</a>
+    <a href="test.html"><i class="fas fa-clipboard-check"></i> التسميع</a>
+    <a href="tafsir.html"><i class="fas fa-book"></i> التفسير</a>
+    <a href="reciters.html"><i class="fas fa-microphone"></i> القراء</a>
+    <a href="settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()" title="تغيير المظهر"><i class="fas fa-moon" id="themeIcon"></i></button>
+    <button class="hamburger" onclick="openMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <span style="font-weight:900;color:var(--green)"><i class="fas fa-book-open"></i> المصحف الشامل</span>
+    <button onclick="closeMenu()" style="background:none;border:none;color:var(--text);font-size:1.2rem;cursor:pointer"><i class="fas fa-times"></i></button>
+  </div>
+  <a href="index.html" class="active"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="read.html"><i class="fas fa-quran"></i> القراءة</a>
+  <a href="listen.html"><i class="fas fa-headphones"></i> الاستماع</a>
+  <a href="memorize.html"><i class="fas fa-brain"></i> الحفظ</a>
+  <a href="test.html"><i class="fas fa-clipboard-check"></i> التسميع</a>
+  <a href="tafsir.html"><i class="fas fa-book"></i> التفسير</a>
+  <a href="reciters.html"><i class="fas fa-microphone"></i> القراء</a>
+  <a href="settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
+</div>
+
+<div class="hero">
+  <div class="hero-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+  <div class="hero-title">المصحف الشامل للقرآن الكريم</div>
+  <div class="hero-sub">قراءة • استماع • حفظ • تسميع • تفسير</div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">114</div><div class="stat-label">سورة</div></div>
+    <div class="stat"><div class="stat-num">6236</div><div class="stat-label">آية</div></div>
+    <div class="stat"><div class="stat-num" id="hifzCount">0</div><div class="stat-label">آية محفوظة</div></div>
+    <div class="stat"><div class="stat-num" id="scoreAvg">-</div><div class="stat-label">متوسط الدرجات</div></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="section-title"><i class="fas fa-star" style="color:var(--gold)"></i> الخدمات الرئيسية</div>
+  <div class="grid">
+    <a href="read.html" class="card" style="--card-color:#1a6b3c">
+      <span class="card-icon">📖</span>
+      <div class="card-title">قراءة القرآن</div>
+      <div class="card-desc">اقرأ القرآن الكريم بأنواع المصاحف المختلفة مع التشكيل الكامل وروايات متعددة</div>
+      <div class="card-arrow"><i class="fas fa-arrow-left"></i> ابدأ القراءة</div>
+    </a>
+    <a href="listen.html" class="card" style="--card-color:#1565c0">
+      <span class="card-icon">🎧</span>
+      <div class="card-title">الاستماع للقرآن</div>
+      <div class="card-desc">استمع لأشهر القراء بمختلف الروايات والمقامات مع مشغل صوتي متكامل</div>
+      <div class="card-arrow"><i class="fas fa-arrow-left"></i> استمع الآن</div>
+    </a>
+    <a href="memorize.html" class="card" style="--card-color:#6a1a6b">
+      <span class="card-icon">🧠</span>
+      <div class="card-title">حفظ القرآن</div>
+      <div class="card-desc">نظام متكامل لتتبع حفظك وتنظيمه مع إحصائيات تفصيلية وتذكيرات</div>
+      <div class="card-arrow"><i class="fas fa-arrow-left"></i> ابدأ الحفظ</div>
+    </a>
+    <a href="test.html" class="card" style="--card-color:#b5451a">
+      <span class="card-icon">📝</span>
+      <div class="card-title">التسميع والاختبار</div>
+      <div class="card-desc">اختبر حفظك بأنماط متنوعة: أكمل الآية، اختر الصحيح، كتابة حرة</div>
+      <div class="card-arrow"><i class="fas fa-arrow-left"></i> ابدأ الاختبار</div>
+    </a>
+    <a href="tafsir.html" class="card" style="--card-color:#8b6914">
+      <span class="card-icon">📚</span>
+      <div class="card-title">التفسير</div>
+      <div class="card-desc">تفسير القرآن الكريم من أمهات كتب التفسير مع عرض متوازٍ للآية والتفسير</div>
+      <div class="card-arrow"><i class="fas fa-arrow-left"></i> اقرأ التفسير</div>
+    </a>
+    <a href="reciters.html" class="card" style="--card-color:#1a5c6b">
+      <span class="card-icon">🎙️</span>
+      <div class="card-title">القراء والروايات</div>
+      <div class="card-desc">قاعدة بيانات شاملة للقراء بمختلف الروايات والمقامات والتلاوات</div>
+      <div class="card-arrow"><i class="fas fa-arrow-left"></i> استكشف القراء</div>
+    </a>
+  </div>
+
+  <div class="section-title"><i class="fas fa-chart-line" style="color:var(--green)"></i> تقدم الحفظ</div>
+  <div class="progress-section">
+    <div class="progress-row">
+      <span class="progress-label">الحفظ الإجمالي</span>
+      <span class="progress-val" id="hifzPct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="hifzBar" style="width:0%"></div></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.75rem;margin-top:.75rem">
+      <div><div style="font-size:.75rem;color:var(--muted);margin-bottom:.25rem">السور المكتملة</div><div style="font-size:1.3rem;font-weight:700;color:var(--green)" id="completedSurahs">0</div></div>
+      <div><div style="font-size:.75rem;color:var(--muted);margin-bottom:.25rem">الآيات المحفوظة</div><div style="font-size:1.3rem;font-weight:700;color:var(--gold)" id="hifzAyahs">0</div></div>
+      <div><div style="font-size:.75rem;color:var(--muted);margin-bottom:.25rem">جلسات التسميع</div><div style="font-size:1.3rem;font-weight:700;color:#1565c0" id="testSessions">0</div></div>
+    </div>
+  </div>
+
+  <div class="section-title"><i class="fas fa-bolt" style="color:var(--gold)"></i> وصول سريع للسور</div>
+  <div class="quick-surah" id="quickSurah"></div>
+</div>
+
+<footer>
+  <p>المصحف الشامل للقرآن الكريم &mdash; قراءة وحفظ واستماع وتفسير</p>
+  <p style="margin-top:.4rem">بيانات القرآن من <strong>AlQuran.Cloud API</strong> &mdash; الصوت من <strong>Islamic Network CDN</strong></p>
+</footer>
+
+<script>
+const SURAHS=[{n:1,ar:"الفاتحة",en:"Al-Fatiha",v:7,t:"مكية"},{n:2,ar:"البقرة",en:"Al-Baqara",v:286,t:"مدنية"},{n:3,ar:"آل عمران",en:"Al-Imran",v:200,t:"مدنية"},{n:4,ar:"النساء",en:"An-Nisa",v:176,t:"مدنية"},{n:5,ar:"المائدة",en:"Al-Maida",v:120,t:"مدنية"},{n:6,ar:"الأنعام",en:"Al-Anam",v:165,t:"مكية"},{n:7,ar:"الأعراف",en:"Al-Araf",v:206,t:"مكية"},{n:8,ar:"الأنفال",en:"Al-Anfal",v:75,t:"مدنية"},{n:9,ar:"التوبة",en:"At-Tawbah",v:129,t:"مدنية"},{n:10,ar:"يونس",en:"Yunus",v:109,t:"مكية"},{n:11,ar:"هود",en:"Hud",v:123,t:"مكية"},{n:12,ar:"يوسف",en:"Yusuf",v:111,t:"مكية"},{n:13,ar:"الرعد",en:"Ar-Rad",v:43,t:"مدنية"},{n:14,ar:"إبراهيم",en:"Ibrahim",v:52,t:"مكية"},{n:15,ar:"الحجر",en:"Al-Hijr",v:99,t:"مكية"},{n:16,ar:"النحل",en:"An-Nahl",v:128,t:"مكية"},{n:17,ar:"الإسراء",en:"Al-Isra",v:111,t:"مكية"},{n:18,ar:"الكهف",en:"Al-Kahf",v:110,t:"مكية"},{n:19,ar:"مريم",en:"Maryam",v:98,t:"مكية"},{n:20,ar:"طه",en:"Taha",v:135,t:"مكية"},{n:21,ar:"الأنبياء",en:"Al-Anbiya",v:112,t:"مكية"},{n:22,ar:"الحج",en:"Al-Hajj",v:78,t:"مدنية"},{n:23,ar:"المؤمنون",en:"Al-Muminun",v:118,t:"مكية"},{n:24,ar:"النور",en:"An-Nur",v:64,t:"مدنية"},{n:25,ar:"الفرقان",en:"Al-Furqan",v:77,t:"مكية"},{n:26,ar:"الشعراء",en:"Ash-Shuara",v:227,t:"مكية"},{n:27,ar:"النمل",en:"An-Naml",v:93,t:"مكية"},{n:28,ar:"القصص",en:"Al-Qasas",v:88,t:"مكية"},{n:29,ar:"العنكبوت",en:"Al-Ankabut",v:69,t:"مكية"},{n:30,ar:"الروم",en:"Ar-Rum",v:60,t:"مكية"},{n:31,ar:"لقمان",en:"Luqman",v:34,t:"مكية"},{n:32,ar:"السجدة",en:"As-Sajda",v:30,t:"مكية"},{n:33,ar:"الأحزاب",en:"Al-Ahzab",v:73,t:"مدنية"},{n:34,ar:"سبأ",en:"Saba",v:54,t:"مكية"},{n:35,ar:"فاطر",en:"Fatir",v:45,t:"مكية"},{n:36,ar:"يس",en:"Ya-Sin",v:83,t:"مكية"},{n:37,ar:"الصافات",en:"As-Saffat",v:182,t:"مكية"},{n:38,ar:"ص",en:"Sad",v:88,t:"مكية"},{n:39,ar:"الزمر",en:"Az-Zumar",v:75,t:"مكية"},{n:40,ar:"غافر",en:"Ghafir",v:85,t:"مكية"},{n:41,ar:"فصلت",en:"Fussilat",v:54,t:"مكية"},{n:42,ar:"الشورى",en:"Ash-Shura",v:53,t:"مكية"},{n:43,ar:"الزخرف",en:"Az-Zukhruf",v:89,t:"مكية"},{n:44,ar:"الدخان",en:"Ad-Dukhan",v:59,t:"مكية"},{n:45,ar:"الجاثية",en:"Al-Jathiya",v:37,t:"مكية"},{n:46,ar:"الأحقاف",en:"Al-Ahqaf",v:35,t:"مكية"},{n:47,ar:"محمد",en:"Muhammad",v:38,t:"مدنية"},{n:48,ar:"الفتح",en:"Al-Fath",v:29,t:"مدنية"},{n:49,ar:"الحجرات",en:"Al-Hujurat",v:18,t:"مدنية"},{n:50,ar:"ق",en:"Qaf",v:45,t:"مكية"},{n:51,ar:"الذاريات",en:"Adh-Dhariyat",v:60,t:"مكية"},{n:52,ar:"الطور",en:"At-Tur",v:49,t:"مكية"},{n:53,ar:"النجم",en:"An-Najm",v:62,t:"مكية"},{n:54,ar:"القمر",en:"Al-Qamar",v:55,t:"مكية"},{n:55,ar:"الرحمن",en:"Ar-Rahman",v:78,t:"مدنية"},{n:56,ar:"الواقعة",en:"Al-Waqia",v:96,t:"مكية"},{n:57,ar:"الحديد",en:"Al-Hadid",v:29,t:"مدنية"},{n:58,ar:"المجادلة",en:"Al-Mujadila",v:22,t:"مدنية"},{n:59,ar:"الحشر",en:"Al-Hashr",v:24,t:"مدنية"},{n:60,ar:"الممتحنة",en:"Al-Mumtahana",v:13,t:"مدنية"},{n:61,ar:"الصف",en:"As-Saf",v:14,t:"مدنية"},{n:62,ar:"الجمعة",en:"Al-Jumu'a",v:11,t:"مدنية"},{n:63,ar:"المنافقون",en:"Al-Munafiqun",v:11,t:"مدنية"},{n:64,ar:"التغابن",en:"At-Taghabun",v:18,t:"مدنية"},{n:65,ar:"الطلاق",en:"At-Talaq",v:12,t:"مدنية"},{n:66,ar:"التحريم",en:"At-Tahrim",v:12,t:"مدنية"},{n:67,ar:"الملك",en:"Al-Mulk",v:30,t:"مكية"},{n:68,ar:"القلم",en:"Al-Qalam",v:52,t:"مكية"},{n:69,ar:"الحاقة",en:"Al-Haqqah",v:52,t:"مكية"},{n:70,ar:"المعارج",en:"Al-Maarij",v:44,t:"مكية"},{n:71,ar:"نوح",en:"Nuh",v:28,t:"مكية"},{n:72,ar:"الجن",en:"Al-Jinn",v:28,t:"مكية"},{n:73,ar:"المزمل",en:"Al-Muzzammil",v:20,t:"مكية"},{n:74,ar:"المدثر",en:"Al-Muddaththir",v:56,t:"مكية"},{n:75,ar:"القيامة",en:"Al-Qiyama",v:40,t:"مكية"},{n:76,ar:"الإنسان",en:"Al-Insan",v:31,t:"مدنية"},{n:77,ar:"المرسلات",en:"Al-Mursalat",v:50,t:"مكية"},{n:78,ar:"النبأ",en:"An-Naba",v:40,t:"مكية"},{n:79,ar:"النازعات",en:"An-Naziat",v:46,t:"مكية"},{n:80,ar:"عبس",en:"Abasa",v:42,t:"مكية"},{n:81,ar:"التكوير",en:"At-Takwir",v:29,t:"مكية"},{n:82,ar:"الانفطار",en:"Al-Infitar",v:19,t:"مكية"},{n:83,ar:"المطففين",en:"Al-Mutaffifin",v:36,t:"مكية"},{n:84,ar:"الانشقاق",en:"Al-Inshiqaq",v:25,t:"مكية"},{n:85,ar:"البروج",en:"Al-Buruj",v:22,t:"مكية"},{n:86,ar:"الطارق",en:"At-Tariq",v:17,t:"مكية"},{n:87,ar:"الأعلى",en:"Al-Ala",v:19,t:"مكية"},{n:88,ar:"الغاشية",en:"Al-Ghashiya",v:26,t:"مكية"},{n:89,ar:"الفجر",en:"Al-Fajr",v:30,t:"مكية"},{n:90,ar:"البلد",en:"Al-Balad",v:20,t:"مكية"},{n:91,ar:"الشمس",en:"Ash-Shams",v:15,t:"مكية"},{n:92,ar:"الليل",en:"Al-Layl",v:21,t:"مكية"},{n:93,ar:"الضحى",en:"Ad-Duha",v:11,t:"مكية"},{n:94,ar:"الشرح",en:"Ash-Sharh",v:8,t:"مكية"},{n:95,ar:"التين",en:"At-Tin",v:8,t:"مكية"},{n:96,ar:"العلق",en:"Al-Alaq",v:19,t:"مكية"},{n:97,ar:"القدر",en:"Al-Qadr",v:5,t:"مكية"},{n:98,ar:"البينة",en:"Al-Bayyina",v:8,t:"مدنية"},{n:99,ar:"الزلزلة",en:"Az-Zalzala",v:8,t:"مدنية"},{n:100,ar:"العاديات",en:"Al-Adiyat",v:11,t:"مكية"},{n:101,ar:"القارعة",en:"Al-Qaria",v:11,t:"مكية"},{n:102,ar:"التكاثر",en:"At-Takathur",v:8,t:"مكية"},{n:103,ar:"العصر",en:"Al-Asr",v:3,t:"مكية"},{n:104,ar:"الهمزة",en:"Al-Humaza",v:9,t:"مكية"},{n:105,ar:"الفيل",en:"Al-Fil",v:5,t:"مكية"},{n:106,ar:"قريش",en:"Quraysh",v:4,t:"مكية"},{n:107,ar:"الماعون",en:"Al-Maun",v:7,t:"مكية"},{n:108,ar:"الكوثر",en:"Al-Kawthar",v:3,t:"مكية"},{n:109,ar:"الكافرون",en:"Al-Kafirun",v:6,t:"مكية"},{n:110,ar:"النصر",en:"An-Nasr",v:3,t:"مدنية"},{n:111,ar:"المسد",en:"Al-Masad",v:5,t:"مكية"},{n:112,ar:"الإخلاص",en:"Al-Ikhlas",v:4,t:"مكية"},{n:113,ar:"الفلق",en:"Al-Falaq",v:5,t:"مكية"},{n:114,ar:"الناس",en:"An-Nas",v:6,t:"مكية"}];
+
+function loadStats(){
+  const mem=JSON.parse(localStorage.getItem('hifz')||'{}');
+  const scores=JSON.parse(localStorage.getItem('scores')||'[]');
+  let total=0,complete=0;
+  SURAHS.forEach(s=>{const m=mem[s.n]||[];total+=m.filter(x=>x).length;if(m.filter(x=>x).length===s.v)complete++;});
+  document.getElementById('hifzCount').textContent=total;
+  document.getElementById('hifzAyahs').textContent=total;
+  document.getElementById('completedSurahs').textContent=complete;
+  document.getElementById('hifzPct').textContent=((total/6236)*100).toFixed(1)+'%';
+  document.getElementById('hifzBar').style.width=((total/6236)*100)+'%';
+  document.getElementById('testSessions').textContent=scores.length;
+  if(scores.length){const avg=(scores.reduce((a,b)=>a+(b.pct||b),0)/scores.length).toFixed(0);document.getElementById('scoreAvg').textContent=avg+'%';}
+}
+
+function buildQuickSurahs(){
+  const c=document.getElementById('quickSurah');
+  SURAHS.slice(0,24).forEach(s=>{
+    c.innerHTML+=`<a href="read.html?s=${s.n}" class="surah-btn"><div class="surah-num">${s.n}</div><div class="surah-name">${s.ar}</div><div class="surah-info">${s.v} آية • ${s.t}</div></a>`;
+  });
+}
+
+function toggleTheme(){document.body.classList.toggle('light');const l=document.body.classList.contains('light');localStorage.setItem('theme',l?'light':'dark');document.getElementById('themeIcon').className=l?'fas fa-sun':'fas fa-moon';}
+function openMenu(){document.getElementById('mobileMenu').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
+
+if(localStorage.getItem('theme')==='light'){document.body.classList.add('light');document.getElementById('themeIcon').className='fas fa-sun';}
+loadStats();buildQuickSurahs();
+</script>
+</body>
+</html>

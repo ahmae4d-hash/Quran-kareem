@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القراء والروايات - المصحف الشامل</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--text:#e6edf3;--muted:#8b949e;--border:#30363d;--green:#1a6b3c;--green2:#2d8a56;--gold:#c9a227}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;min-height:100vh;direction:rtl}
+body.light{--bg:#f0ede8;--bg2:#fff;--bg3:#f5f0ea;--text:#1a1a2e;--muted:#555;--border:#d0c8bc}
+nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:.55rem 1.25rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;gap:.5rem}
+.nav-brand{font-size:1.1rem;font-weight:900;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+.nav-links{display:flex;gap:.2rem;flex-wrap:wrap}
+.nav-links a{color:var(--muted);text-decoration:none;padding:.35rem .6rem;border-radius:8px;font-size:.8rem;font-weight:600;transition:.2s}
+.nav-links a:hover,.nav-links a.active{background:var(--green);color:#fff}
+.nav-right{display:flex;align-items:center;gap:.4rem}
+.theme-btn,.hamburger{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.35rem .55rem;border-radius:8px;cursor:pointer;font-size:.85rem}
+.hamburger{display:none}
+.mobile-menu{display:none;position:fixed;top:0;right:0;width:260px;height:100%;background:var(--bg2);border-left:1px solid var(--border);z-index:300;padding:1rem;overflow-y:auto;flex-direction:column;gap:.4rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--text);text-decoration:none;padding:.65rem 1rem;border-radius:10px;font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:.6rem;transition:.2s}
+.mobile-menu a:hover,.mobile-menu a.active{background:var(--green);color:#fff}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:250}
+.overlay.open{display:block}
+.mobile-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.hero{background:linear-gradient(135deg,#0d2818,#1a3d2a);padding:1.75rem 1.5rem;text-align:center;border-bottom:1px solid var(--border)}
+.hero-title{font-size:1.5rem;font-weight:900;color:#fff;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem;justify-content:center}
+.hero-sub{color:rgba(255,255,255,.6);font-size:.85rem}
+.container{max-width:1200px;margin:0 auto;padding:1.5rem 1rem}
+.filter-bar{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:.875rem 1rem;margin-bottom:1.25rem;display:flex;gap:.65rem;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:.83rem;color:var(--muted);font-weight:600;white-space:nowrap}
+input[type=text]{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.45rem .7rem;border-radius:8px;font-family:'Cairo',sans-serif;font-size:.83rem;outline:none;flex:1;min-width:160px}
+input[type=text]:focus{border-color:var(--green)}
+.tag{background:var(--bg3);border:1px solid var(--border);color:var(--muted);padding:.25rem .65rem;border-radius:20px;cursor:pointer;font-size:.78rem;white-space:nowrap;transition:.2s;font-family:'Cairo',sans-serif}
+.tag:hover,.tag.active{background:var(--green);color:#fff;border-color:var(--green)}
+.section-title{font-size:1.05rem;font-weight:700;color:var(--muted);margin-bottom:.875rem;padding-bottom:.45rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
+.reciters-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.875rem;margin-bottom:2rem}
+.reciter-card{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:1.1rem;transition:.2s;position:relative;overflow:hidden}
+.reciter-card:hover{border-color:var(--green2);transform:translateY(-2px)}
+.reciter-card::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:var(--rc-color,var(--green))}
+.rc-header{display:flex;align-items:center;gap:.75rem;margin-bottom:.875rem}
+.rc-avatar{width:44px;height:44px;background:linear-gradient(135deg,var(--rc-color,var(--green)),var(--green2));border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;flex-shrink:0}
+.rc-name{font-size:.95rem;font-weight:700;margin-bottom:.12rem}
+.rc-riwaya{font-size:.75rem;color:var(--green);font-weight:600}
+.rc-badges{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.75rem}
+.badge{padding:.18rem .5rem;border-radius:99px;font-size:.7rem;font-weight:600}
+.badge-riwaya{background:rgba(26,107,60,.15);color:var(--green);border:1px solid rgba(26,107,60,.3)}
+.badge-maqam{background:rgba(201,162,39,.15);color:var(--gold);border:1px solid rgba(201,162,39,.3)}
+.badge-type{background:rgba(21,101,192,.15);color:#64b5f6;border:1px solid rgba(21,101,192,.3)}
+.rc-info{font-size:.78rem;color:var(--muted);margin-bottom:.875rem;line-height:1.6}
+.rc-actions{display:flex;gap:.45rem;flex-wrap:wrap}
+.rc-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.38rem .8rem;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:'Cairo',sans-serif;font-weight:600;transition:.2s;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem}
+.rc-btn:hover,.rc-btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.info-box{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:1.25rem;margin-bottom:1.5rem}
+.ib-title{font-size:.95rem;font-weight:700;margin-bottom:.875rem;color:var(--gold);display:flex;align-items:center;gap:.5rem}
+.ib-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.875rem}
+.ib-item{text-align:center}
+.ib-num{font-size:1.6rem;font-weight:900;color:var(--green)}
+.ib-label{font-size:.78rem;color:var(--muted)}
+.maqam-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.1rem;margin-bottom:.65rem}
+.maqam-name{font-size:.95rem;font-weight:700;color:var(--gold);margin-bottom:.35rem}
+.maqam-desc{font-size:.82rem;color:var(--muted);line-height:1.7}
+.maqam-reciters{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.65rem}
+.maqam-tag{background:rgba(26,107,60,.1);border:1px solid rgba(26,107,60,.2);color:var(--green);padding:.18rem .5rem;border-radius:6px;font-size:.75rem}
+.riwaya-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.1rem;display:flex;gap:.875rem;align-items:flex-start;margin-bottom:.65rem;flex-wrap:wrap}
+.rv-num{width:38px;height:38px;background:linear-gradient(135deg,var(--green),var(--green2));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.88rem;font-weight:700;flex-shrink:0}
+.rv-content{flex:1;min-width:190px}
+.rv-name{font-size:.95rem;font-weight:700;margin-bottom:.2rem}
+.rv-chain{font-size:.8rem;color:var(--green);margin-bottom:.25rem}
+.rv-desc{font-size:.8rem;color:var(--muted);line-height:1.6}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex;align-items:center}.reciters-grid{grid-template-columns:1fr}.ib-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.ib-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand"><i class="fas fa-book-open"></i> المصحف الشامل</a>
+  <div class="nav-links">
+    <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+    <a href="read.html"><i class="fas fa-quran"></i> القراءة</a>
+    <a href="listen.html"><i class="fas fa-headphones"></i> الاستماع</a>
+    <a href="memorize.html"><i class="fas fa-brain"></i> الحفظ</a>
+    <a href="test.html"><i class="fas fa-clipboard-check"></i> التسميع</a>
+    <a href="tafsir.html"><i class="fas fa-book"></i> التفسير</a>
+    <a href="reciters.html" class="active"><i class="fas fa-microphone"></i> القراء</a>
+    <a href="settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
+    <button class="hamburger" onclick="openMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <span style="font-weight:900;color:var(--green)"><i class="fas fa-book-open"></i> المصحف الشامل</span>
+    <button onclick="closeMenu()" style="background:none;border:none;color:var(--text);font-size:1.2rem;cursor:pointer"><i class="fas fa-times"></i></button>
+  </div>
+  <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="read.html"><i class="fas fa-quran"></i> القراءة</a>
+  <a href="listen.html"><i class="fas fa-headphones"></i> الاستماع</a>
+  <a href="memorize.html"><i class="fas fa-brain"></i> الحفظ</a>
+  <a href="test.html"><i class="fas fa-clipboard-check"></i> التسميع</a>
+  <a href="tafsir.html"><i class="fas fa-book"></i> التفسير</a>
+  <a href="reciters.html" class="active"><i class="fas fa-microphone"></i> القراء</a>
+  <a href="settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
+</div>
+
+<div class="hero">
+  <div class="hero-title"><i class="fas fa-microphone" style="color:var(--gold)"></i> قاعدة بيانات القراء والروايات</div>
+  <div class="hero-sub">القراء العالميون • الروايات الأصيلة • المقامات الموسيقية • التلاوات المتنوعة</div>
+</div>
+
+<div class="container">
+  <div class="info-box">
+    <div class="ib-title"><i class="fas fa-info-circle"></i> إحصائيات</div>
+    <div class="ib-grid">
+      <div class="ib-item"><div class="ib-num">30+</div><div class="ib-label">قارئ عالمي</div></div>
+      <div class="ib-item"><div class="ib-num">10</div><div class="ib-label">روايات</div></div>
+      <div class="ib-item"><div class="ib-num">7</div><div class="ib-label">مقامات</div></div>
+      <div class="ib-item"><div class="ib-num">القرآن</div><div class="ib-label">كاملاً</div></div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <span class="filter-label"><i class="fas fa-search"></i></span>
+    <input type="text" id="searchInput" placeholder="ابحث عن قارئ بالاسم أو البلد..." oninput="filterReciters()">
+    <span class="filter-label">الرواية:</span>
+    <span class="tag active" onclick="filterByRiwaya('all',this)">الكل</span>
+    <span class="tag" onclick="filterByRiwaya('حفص',this)">حفص</span>
+    <span class="tag" onclick="filterByRiwaya('ورش',this)">ورش</span>
+    <span class="tag" onclick="filterByRiwaya('قالون',this)">قالون</span>
+    <span class="tag" onclick="filterByRiwaya('مجوّد',this)">مجوّد</span>
+    <span class="tag" onclick="filterByRiwaya('ترتيل',this)">ترتيل</span>
+  </div>
+
+  <div class="section-title"><i class="fas fa-star" style="color:var(--gold)"></i> القراء <span id="reciterCount" style="margin-right:.5rem;font-size:.85rem"></span></div>
+  <div class="reciters-grid" id="recitersGrid"></div>
+
+  <div class="section-title"><i class="fas fa-music" style="color:var(--gold)"></i> المقامات الصوتية</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.65rem;margin-bottom:2rem">
+    <div class="maqam-card"><div class="maqam-name">مقام البياتي</div><div class="maqam-desc">أشهر المقامات في التلاوة. طابع عاطفي حزين يثير الخشوع والتأمل.</div><div class="maqam-reciters"><span class="maqam-tag">السديس</span><span class="maqam-tag">المنشاوي</span><span class="maqam-tag">الشاطري</span><span class="maqam-tag">المعيقلي</span></div></div>
+    <div class="maqam-card"><div class="maqam-name">مقام الراست</div><div class="maqam-desc">مقام متوازن ومعتدل، يتميز بوضوح النغمات وسهولة الفهم.</div><div class="maqam-reciters"><span class="maqam-tag">الحصري</span><span class="maqam-tag">الحذيفي</span><span class="maqam-tag">الطبلاوي</span></div></div>
+    <div class="maqam-card"><div class="maqam-name">مقام السيكا</div><div class="maqam-desc">مقام حنون رقيق يوحي بالشوق والحنين والرحمة والرجاء.</div><div class="maqam-reciters"><span class="maqam-tag">العفاسي</span><span class="maqam-tag">المعيقلي</span></div></div>
+    <div class="maqam-card"><div class="maqam-name">مقام الحجاز</div><div class="maqam-desc">مقام قوي شامخ يبعث على الهيبة والجلالة، يستخدم في آيات العظمة.</div><div class="maqam-reciters"><span class="maqam-tag">الشاطري</span><span class="maqam-tag">الزيات</span></div></div>
+    <div class="maqam-card"><div class="maqam-name">مقام النهاوند</div><div class="maqam-desc">مقام رومانسي يوحي بالحزن الجميل، يستخدم في آيات الموت والفراق.</div><div class="maqam-reciters"><span class="maqam-tag">الطبلاوي</span><span class="maqam-tag">الغامدي</span></div></div>
+    <div class="maqam-card"><div class="maqam-name">مقام الصبا</div><div class="maqam-desc">مقام متميز بنغماته الصاعدة، يستخدم في التضرع والبكاء والاستغاثة.</div><div class="maqam-reciters"><span class="maqam-tag">عبد الباسط</span><span class="maqam-tag">الشحات</span></div></div>
+    <div class="maqam-card"><div class="maqam-name">مقام العجم</div><div class="maqam-desc">مقام مبهج مشرق يوحي بالفرح والتفاؤل، يستخدم في آيات الجنة والبشارة.</div><div class="maqam-reciters"><span class="maqam-tag">أحمد العجمي</span><span class="maqam-tag">الجهني</span></div></div>
+  </div>
+
+  <div class="section-title"><i class="fas fa-book-reader" style="color:var(--gold)"></i> الروايات الشهيرة</div>
+  <div style="margin-bottom:2rem">
+    <div class="riwaya-card"><div class="rv-num">1</div><div class="rv-content"><div class="rv-name">رواية حفص عن عاصم</div><div class="rv-chain">حفص بن سليمان → عاصم بن أبي النجود → الكوفيون</div><div class="rv-desc">أشهر الروايات وأكثرها انتشاراً في العالم الإسلامي. تتميز بوضوح المخارج وجمال الأداء.</div></div></div>
+    <div class="riwaya-card"><div class="rv-num">2</div><div class="rv-content"><div class="rv-name">رواية ورش عن نافع</div><div class="rv-chain">عثمان بن سعيد (ورش) → نافع المدني → المدينة المنورة</div><div class="rv-desc">منتشرة في شمال وغرب أفريقيا. تتميز بإطالة المدود وخاصية الإمالة.</div></div></div>
+    <div class="riwaya-card"><div class="rv-num">3</div><div class="rv-content"><div class="rv-name">رواية قالون عن نافع</div><div class="rv-chain">عيسى بن ميناء (قالون) → نافع المدني → المدينة المنورة</div><div class="rv-desc">منتشرة في ليبيا وبعض المناطق. تتميز بالقصر والتوسط في المدود.</div></div></div>
+    <div class="riwaya-card"><div class="rv-num">4</div><div class="rv-content"><div class="rv-name">رواية الدوري عن أبي عمرو</div><div class="rv-chain">أبو عمر الدوري → أبو عمرو البصري → البصريون</div><div class="rv-desc">منتشرة في السودان وأجزاء من غرب أفريقيا.</div></div></div>
+    <div class="riwaya-card"><div class="rv-num">5</div><div class="rv-content"><div class="rv-name">رواية شعبة عن عاصم</div><div class="rv-chain">شعبة بن عياش → عاصم بن أبي النجود → الكوفيون</div><div class="rv-desc">رواية مهمة تختلف عن رواية حفص في بعض الكلمات والحركات.</div></div></div>
+    <div class="riwaya-card"><div class="rv-num">6</div><div class="rv-content"><div class="rv-name">رواية ابن كثير</div><div class="rv-chain">عبدالله بن كثير المكي → المكيون</div><div class="rv-desc">إحدى القراءات السبع المتواترة، تتميز بميم الجمع وبعض الأحكام الخاصة.</div></div></div>
+  </div>
+</div>
+
+<script>
+const RECITERS=[
+  {id:"ar.alafasy",name:"مشاري راشد العفاسي",country:"الكويت",riwaya:"حفص عن عاصم",maqam:"متعدد المقامات",type:"ترتيل",bio:"أحد أشهر قراء العصر في العالم. تميز بحنجرة ذهبية وأسلوب مؤثر متعدد المقامات.",color:"#1a6b3c"},
+  {id:"ar.abdurrahmaansudais",name:"عبد الرحمن السديس",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"بياتي",type:"ترتيل",bio:"إمام وخطيب المسجد الحرام بمكة المكرمة. صوت مهيب ومؤثر يجمع بين الجلالة والخشوع.",color:"#8b6914"},
+  {id:"ar.mahermuaiqly",name:"ماهر المعيقلي",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"سيكا",type:"ترتيل",bio:"إمام المسجد الحرام. يتميز بصوت رخيم وأداء خاشع يلامس القلوب.",color:"#1565c0"},
+  {id:"ar.husarymujawwad",name:"محمود خليل الحصري (مجوّد)",country:"مصر",riwaya:"حفص عن عاصم",maqam:"راست - متعدد",type:"مجوّد",bio:"أسطورة التجويد في مصر والعالم العربي. أرسى قواعد التجويد الصوتي وسجّل القرآن بروايات متعددة.",color:"#6a1a6b"},
+  {id:"ar.minshawimujawwad",name:"محمد صديق المنشاوي (مجوّد)",country:"مصر",riwaya:"حفص عن عاصم",maqam:"بياتي - متعدد",type:"مجوّد",bio:"من أعظم القراء المصريين. صوته الحنون الدافئ يسكن القلوب ويبعث على البكاء.",color:"#b5451a"},
+  {id:"ar.husary",name:"محمود خليل الحصري (ترتيل)",country:"مصر",riwaya:"حفص عن عاصم",maqam:"راست",type:"ترتيل",bio:"نسخة الترتيل للشيخ الحصري. مثالية للتعلم والحفظ بفضل بطئها ووضوح أحكام التجويد.",color:"#1a5c6b"},
+  {id:"ar.minshawi",name:"محمد صديق المنشاوي (ترتيل)",country:"مصر",riwaya:"حفص عن عاصم",maqam:"بياتي",type:"ترتيل",bio:"نسخة الترتيل للشيخ المنشاوي. صوت دافئ وأداء متأن مناسب للحفظ والتعلم.",color:"#1a4a6b"},
+  {id:"ar.abdullahbasfar",name:"عبدالله بصفر",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"بياتي",type:"ترتيل",bio:"قارئ سعودي متميز بصوته الرخيم ووضوح المخارج وجمال الأداء.",color:"#2d6b3c"},
+  {id:"ar.shaatree",name:"أبو بكر الشاطري",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"حجاز - بياتي",type:"ترتيل",bio:"قارئ متميز يجمع بين الجمال الصوتي والدقة في الأداء. معروف بتلاواته في المدينة المنورة.",color:"#4a2d6b"},
+  {id:"ar.hudhaify",name:"علي الحذيفي",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"راست",type:"ترتيل",bio:"إمام المسجد النبوي. صوت هادئ ومتزن يبث السكينة في القلوب.",color:"#2d4a6b"},
+  {id:"ar.aymanswoaid",name:"أيمن سويد",country:"سوريا",riwaya:"حفص عن عاصم",maqam:"بياتي",type:"ترتيل",bio:"حافظ متقن للقراءات العشر. مرجع في علم التجويد وتحفيظ القرآن.",color:"#6b2d2d"},
+  {id:"ar.saudalshuraym",name:"سعود الشريم",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"بياتي",type:"ترتيل",bio:"إمام وخطيب المسجد الحرام. صوت قوي جهوري مع خشوع ظاهر في الأداء.",color:"#3d6b1a"},
+  {id:"ar.parhizgar",name:"عبد الباسط عبد الصمد",country:"مصر",riwaya:"حفص عن عاصم",maqam:"صبا - راست - متعدد",type:"مجوّد",bio:"ملك القراء وأسطورة التلاوة المجودة. صوته الخارق لم يتكرر حتى اليوم في تاريخ القراءة.",color:"#c9a227"},
+  {id:"ar.ahmedajamy",name:"أحمد بن علي العجمي",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"عجم",type:"ترتيل",bio:"قارئ سعودي متميز بمقام العجم الفريد. أسلوبه المبهج يبعث على الارتياح والتفاؤل.",color:"#5a3d1a"},
+  {id:"ar.hanirifai",name:"هاني الرفاعي",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"بياتي",type:"ترتيل",bio:"قارئ سعودي موهوب بصوت رقيق وأداء مميز يلامس أعماق القلوب.",color:"#1a3d5a"},
+  {id:"ar.muhammadayyoub",name:"محمد أيوب",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"نهاوند",type:"ترتيل",bio:"إمام المسجد النبوي. يتميز بمقام النهاوند الحزين المعبّر الذي يبعث على التأمل.",color:"#3d1a5a"},
+  {id:"ar.muhammadjibreel",name:"محمد جبريل",country:"مصر",riwaya:"حفص عن عاصم",maqam:"بياتي",type:"ترتيل",bio:"قارئ مصري ذو تجويد دقيق وأداء متأن. صوت هادئ يناسب الاستماع المتأمل.",color:"#1a5a3d"},
+  {id:"ar.muhammadtablawi",name:"محمد محمود الطبلاوي",country:"مصر",riwaya:"حفص عن عاصم",maqam:"نهاوند - راست",type:"مجوّد",bio:"من عمالقة التلاوة في مصر. تلاوته المجودة الفريدة تعدّ من أجمل ما سُجّل في تاريخ القراءة.",color:"#5a1a3d"},
+  {id:"ar.ghamdi",name:"سعد الغامدي",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"نهاوند",type:"ترتيل",bio:"قارئ سعودي بارز بأسلوب ترتيل هادئ وواضح ومميز. من أكثر القراء انتشاراً في العالم.",color:"#3d5a1a"},
+  {id:"ar.adeldkeel",name:"عادل ركيبة",country:"الجزائر",riwaya:"ورش عن نافع",maqam:"راست",type:"ترتيل",bio:"قارئ جزائري بارز برواية ورش. يمثل الهوية الصوتية للقراءة المغاربية.",color:"#6b5a1a"},
+  {id:"ar.khaledkhayyat",name:"خالد القحطاني (ورش)",country:"السعودية",riwaya:"ورش عن نافع",maqam:"راست",type:"ترتيل",bio:"قارئ سعودي متخصص برواية ورش مع أداء مميز يجمع بين الأصالة والجمال الصوتي.",color:"#4a6b5a"},
+  {id:"ar.ibrahimakhbar",name:"إبراهيم الأخضر",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"سيكا",type:"ترتيل",bio:"قارئ سعودي متميز بمقام السيكا الحنون. تلاوته تبعث على الدفء والقرب من الله.",color:"#5a4a1a"},
+  {id:"ar.yassergamal",name:"ياسر الدوسري",country:"السعودية",riwaya:"حفص عن عاصم",maqam:"بياتي",type:"ترتيل",bio:"إمام مسجد الملك خالد. صوت شاب متميز ذو خشوع عميق وأسلوب عصري مؤثر.",color:"#1a6b5a"},
+  {id:"ar.sharafeldeen",name:"شرف الدين مصطفى",country:"ليبيا",riwaya:"قالون عن نافع",maqam:"متعدد",type:"ترتيل",bio:"قارئ ليبي متخصص برواية قالون. يمثل تقليد القراءة الليبية الأصيل.",color:"#5a1a6b"},
+  {id:"ar.farsytahir",name:"فارس عباد",country:"الجزائر",riwaya:"ورش عن نافع",maqam:"سيكا",type:"ترتيل",bio:"قارئ جزائري موهوب برواية ورش بأسلوب مغاربي أصيل ومميز.",color:"#3a6b1a"},
+  {id:"nizar",name:"نزار قطرياني",country:"تونس",riwaya:"ورش عن نافع",maqam:"راست",type:"ترتيل",bio:"قارئ تونسي بارز برواية ورش. يمثل المدرسة التونسية في التلاوة المتميزة.",color:"#1a3a6b"},
+];
+
+let currentFilter='all';
+function filterByRiwaya(r,el){
+  document.querySelectorAll('.filter-bar .tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');currentFilter=r;renderGrid();
+}
+function filterReciters(){renderGrid();}
+function renderGrid(){
+  const q=document.getElementById('searchInput').value.trim();
+  const filtered=RECITERS.filter(r=>{
+    const matchR=currentFilter==='all'||r.riwaya.includes(currentFilter)||r.type.includes(currentFilter);
+    const matchQ=!q||r.name.includes(q)||r.riwaya.includes(q)||r.country.includes(q)||r.maqam.includes(q);
+    return matchR&&matchQ;
+  });
+  document.getElementById('reciterCount').textContent=`(${filtered.length})`;
+  const c=document.getElementById('recitersGrid');
+  if(!filtered.length){c.innerHTML='<div style="color:var(--muted);padding:2rem;grid-column:1/-1;text-align:center"><i class="fas fa-search" style="font-size:2rem;margin-bottom:.875rem;display:block"></i>لا توجد نتائج مطابقة</div>';return;}
+  c.innerHTML=filtered.map(r=>`
+    <div class="reciter-card" style="--rc-color:${r.color}">
+      <div class="rc-header">
+        <div class="rc-avatar" style="background:linear-gradient(135deg,${r.color},#2d8a56)"><i class="fas fa-microphone"></i></div>
+        <div><div class="rc-name">${r.name}</div><div class="rc-riwaya">${r.riwaya}</div></div>
+      </div>
+      <div class="rc-badges">
+        <span class="badge badge-riwaya">${r.riwaya.split(' ')[0]}</span>
+        <span class="badge badge-maqam">${r.maqam.split(' - ')[0]}</span>
+        <span class="badge badge-type">${r.type}</span>
+        <span class="badge" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)"><i class="fas fa-globe" style="font-size:.65rem"></i> ${r.country}</span>
+      </div>
+      <div class="rc-info">${r.bio}</div>
+      <div class="rc-actions">
+        <a href="listen.html" class="rc-btn primary"><i class="fas fa-headphones"></i> استمع</a>
+        <a href="listen.html" class="rc-btn"><i class="fas fa-play-circle"></i> تشغيل</a>
+      </div>
+    </div>`).join('');
+}
+function toggleTheme(){document.body.classList.toggle('light');const l=document.body.classList.contains('light');localStorage.setItem('theme',l?'light':'dark');document.getElementById('themeIcon').className=l?'fas fa-sun':'fas fa-moon';}
+function openMenu(){document.getElementById('mobileMenu').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
+if(localStorage.getItem('theme')==='light'){document.body.classList.add('light');document.getElementById('themeIcon').className='fas fa-sun';}
+renderGrid();
+</script>
+</body>
+</html>

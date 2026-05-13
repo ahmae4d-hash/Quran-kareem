@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الإعدادات - المصحف الشامل</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--text:#e6edf3;--muted:#8b949e;--border:#30363d;--green:#1a6b3c;--green2:#2d8a56;--gold:#c9a227;--red:#cf222e}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;min-height:100vh;direction:rtl}
+body.light{--bg:#f0ede8;--bg2:#fff;--bg3:#f5f0ea;--text:#1a1a2e;--muted:#555;--border:#d0c8bc}
+nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:.55rem 1.25rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;gap:.5rem}
+.nav-brand{font-size:1.1rem;font-weight:900;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+.nav-links{display:flex;gap:.2rem;flex-wrap:wrap}
+.nav-links a{color:var(--muted);text-decoration:none;padding:.35rem .6rem;border-radius:8px;font-size:.8rem;font-weight:600;transition:.2s}
+.nav-links a:hover,.nav-links a.active{background:var(--green);color:#fff}
+.nav-right{display:flex;align-items:center;gap:.4rem}
+.theme-btn,.hamburger{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.35rem .55rem;border-radius:8px;cursor:pointer;font-size:.85rem}
+.hamburger{display:none}
+.mobile-menu{display:none;position:fixed;top:0;right:0;width:260px;height:100%;background:var(--bg2);border-left:1px solid var(--border);z-index:300;padding:1rem;overflow-y:auto;flex-direction:column;gap:.4rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--text);text-decoration:none;padding:.65rem 1rem;border-radius:10px;font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:.6rem;transition:.2s}
+.mobile-menu a:hover,.mobile-menu a.active{background:var(--green);color:#fff}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:250}
+.overlay.open{display:block}
+.mobile-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.container{max-width:800px;margin:0 auto;padding:1.5rem 1rem}
+.page-title{font-size:1.5rem;font-weight:900;margin-bottom:.35rem;display:flex;align-items:center;gap:.6rem}
+.page-sub{color:var(--muted);font-size:.88rem;margin-bottom:1.5rem}
+.settings-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1.25rem}
+.card-title{font-size:.95rem;font-weight:700;margin-bottom:1rem;padding-bottom:.65rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;color:var(--gold)}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--border);gap:1rem;flex-wrap:wrap}
+.setting-row:last-child{border-bottom:none;padding-bottom:0}
+.setting-info{flex:1;min-width:160px}
+.setting-label{font-size:.88rem;font-weight:600;margin-bottom:.1rem}
+.setting-desc{font-size:.76rem;color:var(--muted);line-height:1.5}
+.setting-control{flex-shrink:0}
+.toggle{position:relative;display:inline-block;width:46px;height:25px}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;inset:0;background:var(--border);border-radius:99px;transition:.3s}
+.slider:before{position:absolute;content:'';height:19px;width:19px;right:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+input:checked+.slider{background:var(--green)}
+input:checked+.slider:before{transform:translateX(-21px)}
+select,input[type=number],input[type=text]{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.4rem .7rem;border-radius:8px;font-family:'Cairo',sans-serif;font-size:.83rem;outline:none;cursor:pointer;min-width:150px}
+select:focus,input:focus{border-color:var(--green)}
+.btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif;font-size:.83rem;font-weight:700;transition:.2s;display:inline-flex;align-items:center;gap:.35rem}
+.btn:hover{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.danger{border-color:var(--red);color:var(--red)}
+.btn.danger:hover{background:var(--red);color:#fff}
+.font-preview{font-family:'Amiri',serif;font-size:var(--preview-fs,1.8rem);line-height:2.4;direction:rtl;background:var(--bg3);border-radius:10px;padding:.875rem;margin-top:.875rem;text-align:center;color:var(--text)}
+.data-section{background:var(--bg3);border-radius:10px;padding:.875rem;margin-top:.875rem;font-size:.83rem}
+.data-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem;padding-bottom:.45rem;border-bottom:1px solid var(--border)}
+.data-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.data-key{color:var(--muted)}
+.data-val{font-weight:700;color:var(--green)}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a6b3c;color:#fff;padding:.65rem 1.35rem;border-radius:12px;font-family:'Cairo',sans-serif;font-size:.88rem;z-index:9999;opacity:0;transition:.3s;white-space:nowrap}
+.toast.show{opacity:1}
+.contact-card{background:linear-gradient(135deg,#0d2818,#1a3d2a);border:1px solid var(--green);border-radius:14px;padding:1.5rem;text-align:center}
+.contact-title{font-size:1.1rem;font-weight:900;color:#fff;margin-bottom:.5rem}
+.contact-sub{color:rgba(255,255,255,.7);font-size:.85rem;margin-bottom:1.25rem;line-height:1.7}
+.contact-name{font-size:1.3rem;font-weight:900;color:var(--gold);margin-bottom:.75rem}
+.wa-btn{display:inline-flex;align-items:center;gap:.5rem;background:#25d366;color:#fff;text-decoration:none;padding:.75rem 1.75rem;border-radius:12px;font-family:'Cairo',sans-serif;font-size:1rem;font-weight:700;transition:.2s}
+.wa-btn:hover{background:#1ebe5a;transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.3)}
+.wa-btn i{font-size:1.2rem}
+.shortcut-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.45rem;margin-top:.65rem}
+.shortcut{background:var(--bg3);border-radius:8px;padding:.6rem;display:flex;justify-content:space-between;align-items:center;font-size:.8rem}
+.shortcut-key{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.12rem .45rem;font-family:monospace;font-size:.76rem}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex;align-items:center}.setting-row{flex-direction:column;align-items:flex-start}.shortcut-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand"><i class="fas fa-book-open"></i> المصحف الشامل</a>
+  <div class="nav-links">
+    <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+    <a href="read.html"><i class="fas fa-quran"></i> القراءة</a>
+    <a href="listen.html"><i class="fas fa-headphones"></i> الاستماع</a>
+    <a href="memorize.html"><i class="fas fa-brain"></i> الحفظ</a>
+    <a href="test.html"><i class="fas fa-clipboard-check"></i> التسميع</a>
+    <a href="tafsir.html"><i class="fas fa-book"></i> التفسير</a>
+    <a href="reciters.html"><i class="fas fa-microphone"></i> القراء</a>
+    <a href="settings.html" class="active"><i class="fas fa-cog"></i> الإعدادات</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
+    <button class="hamburger" onclick="openMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <span style="font-weight:900;color:var(--green)"><i class="fas fa-book-open"></i> المصحف الشامل</span>
+    <button onclick="closeMenu()" style="background:none;border:none;color:var(--text);font-size:1.2rem;cursor:pointer"><i class="fas fa-times"></i></button>
+  </div>
+  <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="read.html"><i class="fas fa-quran"></i> القراءة</a>
+  <a href="listen.html"><i class="fas fa-headphones"></i> الاستماع</a>
+  <a href="memorize.html"><i class="fas fa-brain"></i> الحفظ</a>
+  <a href="test.html"><i class="fas fa-clipboard-check"></i> التسميع</a>
+  <a href="tafsir.html"><i class="fas fa-book"></i> التفسير</a>
+  <a href="reciters.html"><i class="fas fa-microphone"></i> القراء</a>
+  <a href="settings.html" class="active"><i class="fas fa-cog"></i> الإعدادات</a>
+</div>
+
+<div class="container">
+  <div class="page-title"><i class="fas fa-cog" style="color:var(--green)"></i> الإعدادات</div>
+  <div class="page-sub">خصّص تجربتك في قراءة وسماع القرآن الكريم</div>
+
+  <div class="settings-card">
+    <div class="card-title"><i class="fas fa-palette"></i> المظهر والعرض</div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">الوضع الليلي</div><div class="setting-desc">تبديل بين الوضع المظلم والفاتح</div></div>
+      <div class="setting-control"><label class="toggle"><input type="checkbox" id="darkModeToggle" onchange="applyTheme()"><span class="slider"></span></label></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">حجم خط القرآن</div><div class="setting-desc">اضبط حجم الخط لراحة القراءة</div></div>
+      <div class="setting-control">
+        <select id="fontSizeSel" onchange="saveSetting('fontSize',this.value);updatePreview()">
+          <option value="1.4rem">صغير</option>
+          <option value="1.8rem" selected>متوسط</option>
+          <option value="2.2rem">كبير</option>
+          <option value="2.6rem">كبير جداً</option>
+        </select>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">خط القرآن</div><div class="setting-desc">اختر خط العرض للمصحف</div></div>
+      <div class="setting-control">
+        <select id="fontFamilySel" onchange="saveSetting('fontFamily',this.value);updatePreview()">
+          <option value="'Amiri Quran', 'Amiri', serif">Amiri Quran (افتراضي)</option>
+          <option value="'Amiri', serif">Amiri</option>
+          <option value="Georgia, serif">خط كلاسيكي</option>
+        </select>
+      </div>
+    </div>
+    <div class="font-preview" id="fontPreview">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾</div>
+  </div>
+
+  <div class="settings-card">
+    <div class="card-title"><i class="fas fa-quran"></i> إعدادات القراءة</div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">المصحف الافتراضي</div><div class="setting-desc">نوع المصحف عند فتح صفحة القراءة</div></div>
+      <div class="setting-control">
+        <select id="defaultEdition" onchange="saveSetting('defaultEdition',this.value)">
+          <option value="quran-uthmani">عثماني (بالتشكيل الكامل)</option>
+          <option value="quran-simple">مبسّط</option>
+          <option value="quran-simple-enhanced">مبسّط محسّن</option>
+          <option value="quran-tajweed">بألوان التجويد</option>
+        </select>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">الرواية الافتراضية</div><div class="setting-desc">رواية القراءة عند فتح التطبيق</div></div>
+      <div class="setting-control">
+        <select id="defaultRiwaya" onchange="saveSetting('defaultRiwaya',this.value)">
+          <option value="">حفص عن عاصم</option>
+          <option value="quran-warsh-asma">ورش عن نافع</option>
+          <option value="quran-qalun">قالون عن نافع</option>
+          <option value="quran-duri-abu-amr">الدوري عن أبي عمرو</option>
+        </select>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">إظهار ترجمة تلقائياً</div><div class="setting-desc">عرض الترجمة الإنجليزية مع الآيات</div></div>
+      <div class="setting-control"><label class="toggle"><input type="checkbox" id="autoTransToggle" onchange="saveSetting('autoTrans',this.checked)"><span class="slider"></span></label></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">حفظ موضع القراءة</div><div class="setting-desc">يحفظ آخر موضع وصلت إليه تلقائياً</div></div>
+      <div class="setting-control"><label class="toggle"><input type="checkbox" id="savePositionToggle" checked onchange="saveSetting('savePosition',this.checked)"><span class="slider"></span></label></div>
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <div class="card-title"><i class="fas fa-headphones"></i> إعدادات الاستماع</div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">القارئ الافتراضي</div><div class="setting-desc">القارئ الذي يُشغَّل تلقائياً</div></div>
+      <div class="setting-control">
+        <select id="defaultReciter" onchange="saveSetting('defaultReciter',this.value)">
+          <option value="ar.alafasy">مشاري العفاسي</option>
+          <option value="ar.abdurrahmaansudais">عبد الرحمن السديس</option>
+          <option value="ar.mahermuaiqly">ماهر المعيقلي</option>
+          <option value="ar.husarymujawwad">الحصري مجوّد</option>
+          <option value="ar.minshawimujawwad">المنشاوي مجوّد</option>
+          <option value="ar.abdullahbasfar">عبدالله بصفر</option>
+          <option value="ar.shaatree">أبو بكر الشاطري</option>
+          <option value="ar.hudhaify">علي الحذيفي</option>
+          <option value="ar.ghamdi">سعد الغامدي</option>
+        </select>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">التشغيل التلقائي</div><div class="setting-desc">الانتقال للآية التالية تلقائياً</div></div>
+      <div class="setting-control"><label class="toggle"><input type="checkbox" id="autoPlayToggle" onchange="saveSetting('autoPlay',this.checked)"><span class="slider"></span></label></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">سرعة الصوت الافتراضية</div><div class="setting-desc">سرعة التشغيل الصوتي</div></div>
+      <div class="setting-control">
+        <select id="defaultSpeed" onchange="saveSetting('defaultSpeed',this.value)">
+          <option value="0.75">بطيء (0.75×)</option>
+          <option value="1" selected>طبيعي (1×)</option>
+          <option value="1.25">سريع نسبياً (1.25×)</option>
+          <option value="1.5">سريع (1.5×)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <div class="card-title"><i class="fas fa-brain"></i> إعدادات الحفظ والاختبار</div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">صعوبة الاختبار الافتراضية</div><div class="setting-desc">مستوى صعوبة أسئلة التسميع</div></div>
+      <div class="setting-control">
+        <select id="defaultDiff" onchange="saveSetting('defaultDiff',this.value)">
+          <option value="easy">سهل</option>
+          <option value="medium" selected>متوسط</option>
+          <option value="hard">صعب</option>
+        </select>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">عدد أسئلة الاختبار</div><div class="setting-desc">العدد الافتراضي لأسئلة كل اختبار</div></div>
+      <div class="setting-control">
+        <select id="defaultCount" onchange="saveSetting('defaultCount',this.value)">
+          <option value="5">5 أسئلة</option>
+          <option value="10" selected>10 أسئلة</option>
+          <option value="20">20 سؤال</option>
+          <option value="30">30 سؤال</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <div class="card-title"><i class="fas fa-chart-bar"></i> بيانات التقدم</div>
+    <div class="data-section" id="dataSection"></div>
+    <div style="margin-top:.875rem;display:flex;gap:.65rem;flex-wrap:wrap">
+      <button class="btn" onclick="exportData()"><i class="fas fa-download"></i> تصدير البيانات</button>
+      <button class="btn" onclick="importData()"><i class="fas fa-upload"></i> استيراد البيانات</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(this)">
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <div class="card-title"><i class="fas fa-trash" style="color:var(--red)"></i> إدارة البيانات</div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">مسح بيانات الحفظ</div><div class="setting-desc">يحذف جميع الآيات المحفوظة نهائياً</div></div>
+      <div class="setting-control"><button class="btn danger" onclick="clearData('hifz')"><i class="fas fa-trash"></i> مسح الحفظ</button></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">مسح سجل الاختبارات</div><div class="setting-desc">يحذف جميع نتائج الاختبارات السابقة</div></div>
+      <div class="setting-control"><button class="btn danger" onclick="clearData('scores')"><i class="fas fa-trash"></i> مسح النتائج</button></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><div class="setting-label">إعادة ضبط المصنع</div><div class="setting-desc">يحذف جميع البيانات والإعدادات نهائياً</div></div>
+      <div class="setting-control"><button class="btn danger" onclick="resetAll()"><i class="fas fa-exclamation-triangle"></i> إعادة الضبط الكامل</button></div>
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <div class="card-title"><i class="fas fa-keyboard"></i> اختصارات لوحة المفاتيح</div>
+    <div class="shortcut-grid">
+      <div class="shortcut"><span>الآية السابقة</span><span class="shortcut-key">←</span></div>
+      <div class="shortcut"><span>الآية التالية</span><span class="shortcut-key">→</span></div>
+      <div class="shortcut"><span>تحقق من الإجابة</span><span class="shortcut-key">Ctrl+Enter</span></div>
+      <div class="shortcut"><span>تشغيل/إيقاف</span><span class="shortcut-key">Space</span></div>
+      <div class="shortcut"><span>تغيير المظهر</span><span class="shortcut-key">Ctrl+D</span></div>
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <div class="card-title"><i class="fas fa-info-circle"></i> عن التطبيق</div>
+    <div style="text-align:center;padding:.5rem 0">
+      <div style="font-family:'Amiri',serif;font-size:1.4rem;color:var(--gold);margin-bottom:.6rem">المصحف الشامل</div>
+      <div style="font-size:.83rem;color:var(--muted);line-height:1.9">
+        بيانات القرآن الكريم من <strong>AlQuran.Cloud API</strong><br>
+        الملفات الصوتية من <strong>Islamic Network CDN</strong><br>
+        جميع البيانات محفوظة محلياً في متصفحك<br>
+        <span style="color:var(--green);font-weight:700">لا ترسل بياناتك لأي خادم خارجي</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <div class="card-title"><i class="fas fa-headset"></i> تواصل مع المطور</div>
+    <div class="contact-card">
+      <div class="contact-title"><i class="fas fa-user-circle"></i> المطور</div>
+      <div class="contact-name">أحمد سعيد</div>
+      <div class="contact-sub">
+        لأي استفسار أو مقترح أو تقرير عن مشكلة،<br>
+        تواصل معنا عبر واتساب وسنرد عليك في أقرب وقت إن شاء الله
+      </div>
+      <a href="https://wa.me/201090844039" target="_blank" class="wa-btn">
+        <i class="fab fa-whatsapp"></i> تواصل عبر واتساب
+      </a>
+      <div style="margin-top:.875rem;font-size:.82rem;color:rgba(255,255,255,.5)">01090844039</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function getSetting(k,def){return localStorage.getItem('s_'+k)??def;}
+function saveSetting(k,v){localStorage.setItem('s_'+k,v);showToast('تم الحفظ ✓');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  const l=document.body.classList.contains('light');
+  localStorage.setItem('theme',l?'light':'dark');
+  document.getElementById('themeIcon').className=l?'fas fa-sun':'fas fa-moon';
+  document.getElementById('darkModeToggle').checked=!l;
+}
+function openMenu(){document.getElementById('mobileMenu').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
+
+function applyTheme(){
+  const isDark=document.getElementById('darkModeToggle').checked;
+  document.body.classList.toggle('light',!isDark);
+  localStorage.setItem('theme',isDark?'dark':'light');
+  document.getElementById('themeIcon').className=isDark?'fas fa-moon':'fas fa-sun';
+}
+
+function updatePreview(){
+  const fs=document.getElementById('fontSizeSel').value;
+  const ff=document.getElementById('fontFamilySel').value;
+  const preview=document.getElementById('fontPreview');
+  preview.style.fontSize=fs;preview.style.fontFamily=ff;
+}
+
+function loadDataStats(){
+  const hifz=JSON.parse(localStorage.getItem('hifz')||'{}');
+  const scores=JSON.parse(localStorage.getItem('scores')||'[]');
+  const bookmarks=JSON.parse(localStorage.getItem('bookmarks')||'[]');
+  let totalMem=0;
+  Object.values(hifz).forEach(arr=>totalMem+=(arr||[]).filter(Boolean).length);
+  const avg=scores.length?Math.round(scores.reduce((a,b)=>a+(b.pct||b),0)/scores.length)+'%':'—';
+  document.getElementById('dataSection').innerHTML=`
+    <div class="data-row"><span class="data-key">آيات محفوظة</span><span class="data-val">${totalMem} / 6236</span></div>
+    <div class="data-row"><span class="data-key">اختبارات مكتملة</span><span class="data-val">${scores.length}</span></div>
+    <div class="data-row"><span class="data-key">إشارات مرجعية</span><span class="data-val">${bookmarks.length}</span></div>
+    <div class="data-row"><span class="data-key">متوسط الدرجات</span><span class="data-val">${avg}</span></div>`;
+}
+
+function exportData(){
+  const data={hifz:localStorage.getItem('hifz'),scores:localStorage.getItem('scores'),bookmarks:localStorage.getItem('bookmarks'),settings:{},exportDate:new Date().toISOString()};
+  Object.keys(localStorage).filter(k=>k.startsWith('s_')).forEach(k=>data.settings[k]=localStorage.getItem(k));
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='quran_progress_'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  showToast('تم تصدير البيانات بنجاح ✓');
+}
+function importData(){document.getElementById('importFile').click();}
+function handleImport(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(data.hifz)localStorage.setItem('hifz',data.hifz);
+      if(data.scores)localStorage.setItem('scores',data.scores);
+      if(data.bookmarks)localStorage.setItem('bookmarks',data.bookmarks);
+      if(data.settings)Object.entries(data.settings).forEach(([k,v])=>localStorage.setItem(k,v));
+      showToast('تم استيراد البيانات بنجاح ✓');loadDataStats();
+    }catch{showToast('خطأ في قراءة الملف');}
+  };
+  reader.readAsText(file);input.value='';
+}
+function clearData(key){
+  if(!confirm('هل أنت متأكد من الحذف؟ لا يمكن التراجع.'))return;
+  localStorage.removeItem(key);loadDataStats();showToast('تم الحذف ✓');
+}
+function resetAll(){
+  if(!confirm('سيتم حذف جميع بياناتك وإعداداتك نهائياً. متأكد؟'))return;
+  if(!confirm('هذا الإجراء لا رجعة فيه. هل تريد المتابعة؟'))return;
+  localStorage.clear();showToast('تمت إعادة الضبط');setTimeout(()=>location.reload(),1000);
+}
+
+function loadSettings(){
+  const theme=localStorage.getItem('theme');
+  const isDark=theme!=='light';
+  if(!isDark){document.body.classList.add('light');document.getElementById('themeIcon').className='fas fa-sun';}
+  document.getElementById('darkModeToggle').checked=isDark;
+  const fs=getSetting('fontSize','1.8rem');
+  document.getElementById('fontSizeSel').value=fs;
+  document.getElementById('defaultEdition').value=getSetting('defaultEdition','quran-uthmani');
+  document.getElementById('defaultRiwaya').value=getSetting('defaultRiwaya','');
+  document.getElementById('defaultReciter').value=getSetting('defaultReciter','ar.alafasy');
+  document.getElementById('autoPlayToggle').checked=getSetting('autoPlay','false')==='true';
+  document.getElementById('defaultSpeed').value=getSetting('defaultSpeed','1');
+  document.getElementById('defaultDiff').value=getSetting('defaultDiff','medium');
+  document.getElementById('defaultCount').value=getSetting('defaultCount','10');
+  document.getElementById('savePositionToggle').checked=getSetting('savePosition','true')!=='false';
+  document.getElementById('autoTransToggle').checked=getSetting('autoTrans','false')==='true';
+  updatePreview();
+}
+
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='d'){e.preventDefault();toggleTheme();}});
+loadSettings();loadDataStats();
+</script>
+</body>
+</html>

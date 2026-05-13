@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التسميع والاختبار - المصحف الشامل</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--text:#e6edf3;--muted:#8b949e;--border:#30363d;--green:#1a6b3c;--green2:#2d8a56;--gold:#c9a227;--red:#cf222e;--blue:#1565c0}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;min-height:100vh;direction:rtl}
+body.light{--bg:#f0ede8;--bg2:#fff;--bg3:#f5f0ea;--text:#1a1a2e;--muted:#555;--border:#d0c8bc}
+nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:.55rem 1.25rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;gap:.5rem}
+.nav-brand{font-size:1.1rem;font-weight:900;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+.nav-links{display:flex;gap:.2rem;flex-wrap:wrap}
+.nav-links a{color:var(--muted);text-decoration:none;padding:.35rem .6rem;border-radius:8px;font-size:.8rem;font-weight:600;transition:.2s}
+.nav-links a:hover,.nav-links a.active{background:var(--green);color:#fff}
+.nav-right{display:flex;align-items:center;gap:.4rem}
+.theme-btn,.hamburger{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.35rem .55rem;border-radius:8px;cursor:pointer;font-size:.85rem}
+.hamburger{display:none}
+.mobile-menu{display:none;position:fixed;top:0;right:0;width:260px;height:100%;background:var(--bg2);border-left:1px solid var(--border);z-index:300;padding:1rem;overflow-y:auto;flex-direction:column;gap:.4rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--text);text-decoration:none;padding:.65rem 1rem;border-radius:10px;font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:.6rem;transition:.2s}
+.mobile-menu a:hover,.mobile-menu a.active{background:var(--green);color:#fff}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:250}
+.overlay.open{display:block}
+.mobile-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+.page-title{font-size:1.5rem;font-weight:900;color:var(--text);margin-bottom:.35rem;display:flex;align-items:center;gap:.65rem}
+.page-sub{color:var(--muted);font-size:.88rem;margin-bottom:1.5rem}
+.setup-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem}
+.setup-title{font-size:1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;color:var(--gold)}
+.options-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.875rem;margin-bottom:1.25rem}
+.option-card{background:var(--bg3);border:2px solid var(--border);border-radius:12px;padding:1.1rem;cursor:pointer;transition:.2s;text-align:center}
+.option-card:hover{border-color:var(--green2);transform:translateY(-2px)}
+.option-card.active{border-color:var(--green);background:rgba(26,107,60,.1)}
+.option-icon{font-size:1.8rem;margin-bottom:.6rem;display:block}
+.option-name{font-weight:700;margin-bottom:.2rem;font-size:.95rem}
+.option-desc{font-size:.78rem;color:var(--muted)}
+.form-row{display:flex;gap:.65rem;flex-wrap:wrap;margin-bottom:.875rem;align-items:center}
+.form-label{font-size:.83rem;color:var(--muted);font-weight:600;white-space:nowrap}
+select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.45rem .7rem;border-radius:8px;font-family:'Cairo',sans-serif;font-size:.83rem;outline:none;cursor:pointer;flex:1;min-width:160px}
+select:focus{border-color:var(--green)}
+.btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.55rem 1.1rem;border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:700;transition:.2s;display:inline-flex;align-items:center;gap:.4rem}
+.btn:hover{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.primary{background:var(--green);color:#fff;border-color:var(--green);font-size:.95rem;padding:.7rem 1.75rem}
+.btn.primary:hover{background:var(--green2)}
+.btn.danger{background:var(--red);color:#fff;border-color:var(--red)}
+.loading-section{text-align:center;padding:3rem;color:var(--muted);display:none}
+.loading-section i{font-size:2.5rem;color:var(--green);animation:spin 1s linear infinite;display:block;margin-bottom:1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.quiz-section{display:none}
+.quiz-header{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
+.quiz-progress-wrap{flex:1;min-width:180px}
+.quiz-label{font-size:.8rem;color:var(--muted);margin-bottom:.3rem}
+.quiz-pb{background:var(--bg3);border-radius:99px;height:10px;overflow:hidden}
+.quiz-pb-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:99px;transition:width .4s}
+.quiz-stat{text-align:center}
+.quiz-stat-num{font-size:1.4rem;font-weight:900}
+.quiz-stat-label{font-size:.7rem;color:var(--muted)}
+.question-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.25rem}
+.q-type-badge{display:inline-block;background:var(--blue);color:#fff;font-size:.75rem;padding:.22rem .55rem;border-radius:99px;margin-bottom:.875rem}
+.q-instruction{font-size:.88rem;color:var(--muted);margin-bottom:.875rem;background:var(--bg3);padding:.5rem .75rem;border-radius:8px;display:inline-block}
+.q-ayah{font-family:'Amiri Quran','Amiri',serif;font-size:1.7rem;line-height:2.5;direction:rtl;background:var(--bg3);border-radius:12px;padding:1.1rem;margin-bottom:1.1rem;text-align:center}
+.q-ayah .blank{display:inline-block;min-width:100px;border-bottom:3px solid var(--green);background:rgba(26,107,60,.1);border-radius:4px;padding:.1rem .4rem;color:transparent;user-select:none;vertical-align:middle}
+.q-answer-area{margin-bottom:1.1rem}
+.q-answer-area textarea{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.65rem .875rem;border-radius:10px;font-family:'Amiri Quran','Amiri',serif;font-size:1.2rem;resize:vertical;min-height:80px;outline:none;direction:rtl;line-height:2;transition:.2s}
+.q-answer-area textarea:focus{border-color:var(--green)}
+.choices{display:grid;gap:.55rem}
+.choice-btn{background:var(--bg3);border:2px solid var(--border);color:var(--text);padding:.875rem 1.1rem;border-radius:10px;cursor:pointer;font-family:'Amiri Quran','Amiri',serif;font-size:1.1rem;text-align:right;direction:rtl;transition:.2s;line-height:1.7;width:100%}
+.choice-btn:hover:not(:disabled){border-color:var(--green2);background:rgba(26,107,60,.05)}
+.choice-btn.selected{border-color:var(--blue);background:rgba(21,101,192,.1)}
+.choice-btn.correct{border-color:var(--green)!important;background:rgba(26,107,60,.15)!important;color:var(--green)}
+.choice-btn.wrong{border-color:var(--red)!important;background:rgba(207,34,46,.1)!important;color:var(--red)}
+.result-banner{border-radius:12px;padding:.875rem 1.1rem;margin-bottom:.875rem;font-weight:700;display:none;align-items:center;gap:.6rem}
+.result-banner.show{display:flex}
+.result-banner.correct{background:rgba(26,107,60,.15);border:1px solid var(--green);color:var(--green)}
+.result-banner.wrong{background:rgba(207,34,46,.1);border:1px solid var(--red);color:var(--red)}
+.correct-answer-display{font-family:'Amiri',serif;font-size:1.05rem;margin-top:.45rem;direction:rtl;font-weight:400;color:var(--text);line-height:1.8}
+.q-actions{display:flex;gap:.65rem;flex-wrap:wrap;margin-top:.5rem}
+.results-section{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:2rem;text-align:center}
+.result-circle{width:110px;height:110px;border-radius:50%;margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:900;color:#fff}
+.result-grade{font-size:1.4rem;font-weight:700;margin-bottom:.4rem}
+.result-sub{color:var(--muted);font-size:.88rem;margin-bottom:1.25rem}
+.result-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;margin-bottom:1.25rem}
+.rb-num{font-size:1.6rem;font-weight:900}
+.rb-label{font-size:.73rem;color:var(--muted)}
+.history-section{margin-top:2.5rem}
+.history-title{font-size:.95rem;font-weight:700;margin-bottom:.875rem;color:var(--muted);display:flex;align-items:center;gap:.4rem}
+.history-list{display:grid;gap:.45rem}
+.history-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.65rem .875rem;display:flex;align-items:center;gap:.875rem;flex-wrap:wrap}
+.hi-score{font-size:1.1rem;font-weight:900;min-width:48px}
+.hi-info{flex:1;font-size:.78rem;color:var(--muted)}
+.hi-badge{padding:.18rem .55rem;border-radius:99px;font-size:.73rem;font-weight:700}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex;align-items:center}.options-grid{grid-template-columns:1fr 1fr}.result-breakdown{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.options-grid{grid-template-columns:1fr}.result-breakdown{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand"><i class="fas fa-book-open"></i> المصحف الشامل</a>
+  <div class="nav-links">
+    <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+    <a href="read.html"><i class="fas fa-quran"></i> القراءة</a>
+    <a href="listen.html"><i class="fas fa-headphones"></i> الاستماع</a>
+    <a href="memorize.html"><i class="fas fa-brain"></i> الحفظ</a>
+    <a href="test.html" class="active"><i class="fas fa-clipboard-check"></i> التسميع</a>
+    <a href="tafsir.html"><i class="fas fa-book"></i> التفسير</a>
+    <a href="reciters.html"><i class="fas fa-microphone"></i> القراء</a>
+    <a href="settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
+    <button class="hamburger" onclick="openMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <span style="font-weight:900;color:var(--green)"><i class="fas fa-book-open"></i> المصحف الشامل</span>
+    <button onclick="closeMenu()" style="background:none;border:none;color:var(--text);font-size:1.2rem;cursor:pointer"><i class="fas fa-times"></i></button>
+  </div>
+  <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="read.html"><i class="fas fa-quran"></i> القراءة</a>
+  <a href="listen.html"><i class="fas fa-headphones"></i> الاستماع</a>
+  <a href="memorize.html"><i class="fas fa-brain"></i> الحفظ</a>
+  <a href="test.html" class="active"><i class="fas fa-clipboard-check"></i> التسميع</a>
+  <a href="tafsir.html"><i class="fas fa-book"></i> التفسير</a>
+  <a href="reciters.html"><i class="fas fa-microphone"></i> القراء</a>
+  <a href="settings.html"><i class="fas fa-cog"></i> الإعدادات</a>
+</div>
+
+<div class="container">
+  <div id="setupSection">
+    <div class="page-title"><i class="fas fa-clipboard-check" style="color:var(--green)"></i> نظام التسميع والاختبار</div>
+    <div class="page-sub">اختبر حفظك بأنماط متنوعة وتتبع تقدمك</div>
+
+    <div class="setup-card">
+      <div class="setup-title"><i class="fas fa-tasks"></i> نوع الاختبار</div>
+      <div class="options-grid">
+        <div class="option-card active" onclick="selectMode('complete',this)">
+          <span class="option-icon">✍️</span>
+          <div class="option-name">أكمل الآية</div>
+          <div class="option-desc">أكتب ما يلي بعد بداية الآية</div>
+        </div>
+        <div class="option-card" onclick="selectMode('choose',this)">
+          <span class="option-icon">☑️</span>
+          <div class="option-name">اختر الصحيح</div>
+          <div class="option-desc">اختر التكملة الصحيحة من 4 خيارات</div>
+        </div>
+        <div class="option-card" onclick="selectMode('full',this)">
+          <span class="option-icon">📝</span>
+          <div class="option-name">اكتب الآية كاملة</div>
+          <div class="option-desc">اكتب الآية الكاملة من الذاكرة</div>
+        </div>
+        <div class="option-card" onclick="selectMode('surah',this)">
+          <span class="option-icon">📖</span>
+          <div class="option-name">تسميع سورة</div>
+          <div class="option-desc">سمّع سورة كاملة آية بآية</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="form-label">المصدر:</span>
+        <select id="surahSel">
+          <option value="memorized">من محفوظاتي</option>
+          <option value="all">كل القرآن</option>
+          <option value="specific">سورة محددة</option>
+        </select>
+      </div>
+      <div class="form-row" id="specificSurahRow" style="display:none">
+        <span class="form-label">السورة:</span>
+        <select id="surahSpecSel"></select>
+      </div>
+      <div class="form-row">
+        <span class="form-label">عدد الأسئلة:</span>
+        <select id="countSel">
+          <option value="5">5 أسئلة</option>
+          <option value="10" selected>10 أسئلة</option>
+          <option value="20">20 سؤال</option>
+          <option value="30">30 سؤال</option>
+          <option value="50">50 سؤال</option>
+        </select>
+        <span class="form-label">الصعوبة:</span>
+        <select id="diffSel">
+          <option value="easy">سهل</option>
+          <option value="medium" selected>متوسط</option>
+          <option value="hard">صعب</option>
+        </select>
+      </div>
+      <div style="text-align:center;margin-top:1rem">
+        <button class="btn primary" onclick="startQuiz()"><i class="fas fa-play"></i> ابدأ الاختبار</button>
+      </div>
+    </div>
+
+    <div class="history-section">
+      <div class="history-title"><i class="fas fa-history"></i> سجل الاختبارات الأخيرة</div>
+      <div class="history-list" id="historyList"></div>
+    </div>
+  </div>
+
+  <div class="loading-section" id="loadingSection">
+    <i class="fas fa-spinner"></i>
+    جاري تحميل الأسئلة...
+  </div>
+
+  <div class="quiz-section" id="quizSection">
+    <div class="quiz-header">
+      <div class="quiz-progress-wrap">
+        <div class="quiz-label" id="qLabel">السؤال 1 من 10</div>
+        <div class="quiz-pb"><div class="quiz-pb-fill" id="qBar" style="width:10%"></div></div>
+      </div>
+      <div class="quiz-stat"><div class="quiz-stat-num" id="qCorrect" style="color:var(--green)">0</div><div class="quiz-stat-label">صحيح</div></div>
+      <div class="quiz-stat"><div class="quiz-stat-num" id="qWrong" style="color:var(--red)">0</div><div class="quiz-stat-label">خطأ</div></div>
+      <button class="btn danger" onclick="confirmEndQuiz()" style="padding:.38rem .8rem;font-size:.8rem"><i class="fas fa-stop"></i> إنهاء</button>
+    </div>
+    <div class="question-card" id="questionCard"></div>
+    <div style="text-align:center;display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap">
+      <button class="btn" id="checkBtn" onclick="checkAnswer()" style="display:none"><i class="fas fa-check"></i> تحقق من الإجابة</button>
+      <button class="btn primary" id="nextBtn" onclick="nextQuestion()" style="display:none"><i class="fas fa-arrow-left"></i> السؤال التالي</button>
+    </div>
+  </div>
+
+  <div class="results-section" id="resultsSection">
+    <div class="result-circle" id="resultCircle"></div>
+    <div class="result-grade" id="resultGrade"></div>
+    <div class="result-sub" id="resultSub"></div>
+    <div class="result-breakdown">
+      <div><div class="rb-num" id="rbCorrect" style="color:var(--green)">0</div><div class="rb-label">إجابات صحيحة</div></div>
+      <div><div class="rb-num" id="rbWrong" style="color:var(--red)">0</div><div class="rb-label">إجابات خاطئة</div></div>
+      <div><div class="rb-num" id="rbPct" style="color:var(--gold)">0%</div><div class="rb-label">النسبة</div></div>
+    </div>
+    <div style="display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap">
+      <button class="btn primary" onclick="restartQuiz()"><i class="fas fa-redo"></i> اختبار جديد</button>
+      <button class="btn" onclick="showSetup()"><i class="fas fa-cog"></i> تغيير الإعدادات</button>
+      <a href="memorize.html" class="btn"><i class="fas fa-brain"></i> رجوع للحفظ</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const SURAHS=[{n:1,ar:"الفاتحة",v:7},{n:2,ar:"البقرة",v:286},{n:3,ar:"آل عمران",v:200},{n:4,ar:"النساء",v:176},{n:5,ar:"المائدة",v:120},{n:6,ar:"الأنعام",v:165},{n:7,ar:"الأعراف",v:206},{n:8,ar:"الأنفال",v:75},{n:9,ar:"التوبة",v:129},{n:10,ar:"يونس",v:109},{n:11,ar:"هود",v:123},{n:12,ar:"يوسف",v:111},{n:13,ar:"الرعد",v:43},{n:14,ar:"إبراهيم",v:52},{n:15,ar:"الحجر",v:99},{n:16,ar:"النحل",v:128},{n:17,ar:"الإسراء",v:111},{n:18,ar:"الكهف",v:110},{n:19,ar:"مريم",v:98},{n:20,ar:"طه",v:135},{n:21,ar:"الأنبياء",v:112},{n:22,ar:"الحج",v:78},{n:23,ar:"المؤمنون",v:118},{n:24,ar:"النور",v:64},{n:25,ar:"الفرقان",v:77},{n:26,ar:"الشعراء",v:227},{n:27,ar:"النمل",v:93},{n:28,ar:"القصص",v:88},{n:29,ar:"العنكبوت",v:69},{n:30,ar:"الروم",v:60},{n:31,ar:"لقمان",v:34},{n:32,ar:"السجدة",v:30},{n:33,ar:"الأحزاب",v:73},{n:34,ar:"سبأ",v:54},{n:35,ar:"فاطر",v:45},{n:36,ar:"يس",v:83},{n:37,ar:"الصافات",v:182},{n:38,ar:"ص",v:88},{n:39,ar:"الزمر",v:75},{n:40,ar:"غافر",v:85},{n:41,ar:"فصلت",v:54},{n:42,ar:"الشورى",v:53},{n:43,ar:"الزخرف",v:89},{n:44,ar:"الدخان",v:59},{n:45,ar:"الجاثية",v:37},{n:46,ar:"الأحقاف",v:35},{n:47,ar:"محمد",v:38},{n:48,ar:"الفتح",v:29},{n:49,ar:"الحجرات",v:18},{n:50,ar:"ق",v:45},{n:51,ar:"الذاريات",v:60},{n:52,ar:"الطور",v:49},{n:53,ar:"النجم",v:62},{n:54,ar:"القمر",v:55},{n:55,ar:"الرحمن",v:78},{n:56,ar:"الواقعة",v:96},{n:57,ar:"الحديد",v:29},{n:58,ar:"المجادلة",v:22},{n:59,ar:"الحشر",v:24},{n:60,ar:"الممتحنة",v:13},{n:61,ar:"الصف",v:14},{n:62,ar:"الجمعة",v:11},{n:63,ar:"المنافقون",v:11},{n:64,ar:"التغابن",v:18},{n:65,ar:"الطلاق",v:12},{n:66,ar:"التحريم",v:12},{n:67,ar:"الملك",v:30},{n:68,ar:"القلم",v:52},{n:69,ar:"الحاقة",v:52},{n:70,ar:"المعارج",v:44},{n:71,ar:"نوح",v:28},{n:72,ar:"الجن",v:28},{n:73,ar:"المزمل",v:20},{n:74,ar:"المدثر",v:56},{n:75,ar:"القيامة",v:40},{n:76,ar:"الإنسان",v:31},{n:77,ar:"المرسلات",v:50},{n:78,ar:"النبأ",v:40},{n:79,ar:"النازعات",v:46},{n:80,ar:"عبس",v:42},{n:81,ar:"التكوير",v:29},{n:82,ar:"الانفطار",v:19},{n:83,ar:"المطففين",v:36},{n:84,ar:"الانشقاق",v:25},{n:85,ar:"البروج",v:22},{n:86,ar:"الطارق",v:17},{n:87,ar:"الأعلى",v:19},{n:88,ar:"الغاشية",v:26},{n:89,ar:"الفجر",v:30},{n:90,ar:"البلد",v:20},{n:91,ar:"الشمس",v:15},{n:92,ar:"الليل",v:21},{n:93,ar:"الضحى",v:11},{n:94,ar:"الشرح",v:8},{n:95,ar:"التين",v:8},{n:96,ar:"العلق",v:19},{n:97,ar:"القدر",v:5},{n:98,ar:"البينة",v:8},{n:99,ar:"الزلزلة",v:8},{n:100,ar:"العاديات",v:11},{n:101,ar:"القارعة",v:11},{n:102,ar:"التكاثر",v:8},{n:103,ar:"العصر",v:3},{n:104,ar:"الهمزة",v:9},{n:105,ar:"الفيل",v:5},{n:106,ar:"قريش",v:4},{n:107,ar:"الماعون",v:7},{n:108,ar:"الكوثر",v:3},{n:109,ar:"الكافرون",v:6},{n:110,ar:"النصر",v:3},{n:111,ar:"المسد",v:5},{n:112,ar:"الإخلاص",v:4},{n:113,ar:"الفلق",v:5},{n:114,ar:"الناس",v:6}];
+
+// Populate surah selector
+const sel=document.getElementById('surahSpecSel');
+SURAHS.forEach(s=>sel.innerHTML+=`<option value="${s.n}">${s.n}. ${s.ar}</option>`);
+
+document.getElementById('surahSel').addEventListener('change',function(){
+  document.getElementById('specificSurahRow').style.display=this.value==='specific'?'':'none';
+});
+
+let quizMode='complete',questions=[],currentQ=0,correctCount=0,wrongCount=0,answered=false,allPool=[];
+
+function selectMode(mode,el){
+  quizMode=mode;
+  document.querySelectorAll('.option-card').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function shuffle(arr){
+  const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;
+}
+
+async function fetchSurahAyahs(surahNum){
+  const res=await fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`);
+  const d=await res.json();
+  if(d.code!==200)throw new Error('API error');
+  return d.data.ayahs.map(a=>({...a,surahN:surahNum,surahAr:SURAHS[surahNum-1].ar}));
+}
+
+async function buildQuestionPool(){
+  const hifz=JSON.parse(localStorage.getItem('hifz')||'{}');
+  const srcMode=document.getElementById('surahSel').value;
+  let pool=[];
+
+  if(srcMode==='specific'){
+    const sn=parseInt(document.getElementById('surahSpecSel').value);
+    pool=await fetchSurahAyahs(sn);
+  } else if(srcMode==='memorized'){
+    const memSurahs=SURAHS.filter(s=>(hifz[s.n]||[]).some(Boolean));
+    if(!memSurahs.length){
+      const shortSurahs=SURAHS.slice(86);
+      const fetched=await Promise.all(shortSurahs.map(s=>fetchSurahAyahs(s.n)));
+      fetched.forEach(a=>pool.push(...a));
+    } else {
+      const toFetch=memSurahs.slice(0,8);
+      const fetched=await Promise.all(toFetch.map(s=>fetchSurahAyahs(s.n)));
+      fetched.forEach((ayahs,i)=>{
+        const memArr=hifz[toFetch[i].n]||[];
+        const filtered=ayahs.filter((_,idx)=>memArr[idx]);
+        pool.push(...filtered);
+      });
+    }
+  } else {
+    const picks=shuffle(SURAHS).slice(0,6);
+    const fetched=await Promise.all(picks.map(s=>fetchSurahAyahs(s.n)));
+    fetched.forEach(a=>pool.push(...a));
+  }
+  return pool;
+}
+
+async function startQuiz(){
+  const n=parseInt(document.getElementById('countSel').value)||10;
+  document.getElementById('setupSection').style.display='none';
+  document.getElementById('loadingSection').style.display='block';
+  try{
+    allPool=await buildQuestionPool();
+    if(!allPool.length){
+      document.getElementById('loadingSection').style.display='none';
+      document.getElementById('setupSection').style.display='';
+      alert('لا توجد آيات للاختبار. أضف محفوظات أو اختر سورة محددة.');
+      return;
+    }
+    questions=shuffle(allPool).slice(0,Math.min(n,allPool.length));
+    currentQ=0;correctCount=0;wrongCount=0;
+    document.getElementById('loadingSection').style.display='none';
+    document.getElementById('quizSection').style.display='';
+    renderQuestion();
+  }catch(e){
+    document.getElementById('loadingSection').style.display='none';
+    document.getElementById('setupSection').style.display='';
+    alert('حدث خطأ في تحميل البيانات. تحقق من الاتصال بالإنترنت وأعد المحاولة.');
+  }
+}
+
+function renderQuestion(){
+  if(currentQ>=questions.length){endQuiz();return;}
+  answered=false;
+  document.getElementById('checkBtn').style.display='';
+  document.getElementById('nextBtn').style.display='none';
+  const q=questions[currentQ];
+  const total=questions.length;
+  document.getElementById('qLabel').textContent=`السؤال ${currentQ+1} من ${total}`;
+  document.getElementById('qBar').style.width=((currentQ+1)/total*100)+'%';
+  document.getElementById('qCorrect').textContent=correctCount;
+  document.getElementById('qWrong').textContent=wrongCount;
+
+  const diff=document.getElementById('diffSel').value;
+  const words=q.text.split(' ');
+  let showCount=diff==='easy'?Math.ceil(words.length*.55):diff==='medium'?Math.ceil(words.length*.35):2;
+  showCount=Math.max(2,Math.min(showCount,words.length-1));
+  const shown=words.slice(0,showCount).join(' ');
+  const hidden=words.slice(showCount).join(' ');
+  const c=document.getElementById('questionCard');
+
+  if(quizMode==='full'){
+    c.innerHTML=`
+      <div class="q-type-badge"><i class="fas fa-pencil-alt"></i> اكتب الآية كاملة</div>
+      <div class="q-instruction">السورة: ${q.surahAr} • الآية ${q.numberInSurah}</div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="q-answer-area"><textarea id="answerInput" placeholder="اكتب الآية كاملة من ذاكرتك..." onkeydown="if(event.ctrlKey&&event.key==='Enter')checkAnswer()"></textarea></div>
+      <div style="font-size:.75rem;color:var(--muted)">Ctrl+Enter للتحقق</div>`;
+  } else if(quizMode==='complete'||quizMode==='surah'){
+    c.innerHTML=`
+      <div class="q-type-badge"><i class="fas fa-edit"></i> ${quizMode==='surah'?'تسميع سورة':'أكمل الآية'}</div>
+      <div class="q-instruction">السورة: ${q.surahAr} • الآية ${q.numberInSurah}</div>
+      <div class="q-ayah">${shown} <span class="blank">___________</span></div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="q-answer-area"><textarea id="answerInput" placeholder="اكتب التكملة..." onkeydown="if(event.ctrlKey&&event.key==='Enter')checkAnswer()"></textarea></div>
+      <div style="font-size:.75rem;color:var(--muted)">Ctrl+Enter للتحقق</div>`;
+  } else if(quizMode==='choose'){
+    const others=shuffle(allPool.filter(a=>a.number!==q.number)).slice(0,3);
+    const otherTexts=others.map(a=>{
+      const w=a.text.split(' ');
+      return w.slice(showCount).join(' ')||a.text.split(' ').slice(2).join(' ');
+    });
+    const choices=shuffle([{text:hidden,correct:true},...otherTexts.map(t=>({text:t,correct:false}))]);
+    c.innerHTML=`
+      <div class="q-type-badge"><i class="fas fa-list"></i> اختر الصحيح</div>
+      <div class="q-instruction">السورة: ${q.surahAr} • الآية ${q.numberInSurah}</div>
+      <div class="q-ayah">${shown} <span class="blank">___________</span></div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="choices">${choices.map((ch,i)=>`<button class="choice-btn" data-correct="${ch.correct}" onclick="selectChoice(this)">${ch.text||'(فارغ)'}</button>`).join('')}</div>`;
+    document.getElementById('checkBtn').style.display='none';
+  }
+  c._data={q,shown,hidden,showCount,words};
+  const ta=document.getElementById('answerInput');
+  if(ta)setTimeout(()=>ta.focus(),100);
+}
+
+function selectChoice(el){
+  if(answered)return;
+  answered=true;
+  document.querySelectorAll('.choice-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.correct==='true')b.classList.add('correct');
+  });
+  const isCorrect=el.dataset.correct==='true';
+  if(!isCorrect)el.classList.add('wrong');
+  showResult(isCorrect,null);
+}
+
+function checkAnswer(){
+  if(answered)return;
+  answered=true;
+  const input=document.getElementById('answerInput');
+  if(!input)return;
+  const data=document.getElementById('questionCard')._data;
+  const userAns=input.value.trim();
+  const correct=quizMode==='full'?data.q.text:data.hidden;
+  const norm_user=normalize(userAns);
+  const norm_correct=normalize(correct);
+  const isCorrect=norm_user===norm_correct||similarity(norm_user,norm_correct)>=0.82;
+  input.style.border=`2px solid ${isCorrect?'var(--green)':'var(--red)'}`;
+  showResult(isCorrect,correct);
+}
+
+function normalize(s){
+  return s.replace(/[ًٌٍَُِّْٰٓٔأإآٱ]/g,'').replace(/ة/g,'ه').replace(/\s+/g,' ').trim();
+}
+function similarity(a,b){
+  if(!a||!b)return 0;
+  const longer=a.length>b.length?a:b;
+  const shorter=a.length>b.length?b:a;
+  if(longer.length===0)return 1;
+  let matches=0;
+  for(let i=0;i<shorter.length;i++){if(longer.includes(shorter[i]))matches++;}
+  return matches/longer.length;
+}
+
+function showResult(isCorrect,correctText){
+  if(isCorrect)correctCount++;else wrongCount++;
+  document.getElementById('qCorrect').textContent=correctCount;
+  document.getElementById('qWrong').textContent=wrongCount;
+  const banner=document.getElementById('resultBanner');
+  if(banner){
+    banner.className='result-banner show '+(isCorrect?'correct':'wrong');
+    if(isCorrect){
+      banner.innerHTML='<i class="fas fa-check-circle"></i> إجابة صحيحة! أحسنت';
+    } else {
+      const data=document.getElementById('questionCard')._data;
+      const correct=correctText||(quizMode==='full'?data.q.text:data.hidden);
+      banner.innerHTML=`<div style="width:100%"><i class="fas fa-times-circle"></i> إجابة خاطئة<div class="correct-answer-display"><strong>الصحيح:</strong> ${correct}</div></div>`;
+    }
+  }
+  document.getElementById('checkBtn').style.display='none';
+  document.getElementById('nextBtn').style.display='';
+  if(currentQ>=questions.length-1){
+    document.getElementById('nextBtn').innerHTML='<i class="fas fa-flag-checkered"></i> إنهاء الاختبار';
+    document.getElementById('nextBtn').classList.add('primary');
+  }
+}
+
+function nextQuestion(){currentQ++;renderQuestion();}
+
+function confirmEndQuiz(){
+  if(confirm('هل تريد إنهاء الاختبار الآن؟ سيتم احتساب الأسئلة المتبقية كخطأ.'))endQuiz();
+}
+
+function endQuiz(){
+  document.getElementById('quizSection').style.display='none';
+  document.getElementById('resultsSection').style.display='';
+  const totalAnswered=correctCount+wrongCount;
+  const pct=questions.length?Math.round(correctCount/questions.length*100):0;
+  const circle=document.getElementById('resultCircle');
+  let grade,color;
+  if(pct>=90){grade='ممتاز 🏆';color='#1a6b3c';}
+  else if(pct>=75){grade='جيد جداً ⭐';color='#2d8a56';}
+  else if(pct>=60){grade='جيد 👍';color='#c9a227';}
+  else if(pct>=50){grade='مقبول';color='#b5451a';}
+  else{grade='يحتاج مراجعة';color='#cf222e';}
+  circle.style.background=`linear-gradient(135deg,${color},${color}aa)`;
+  circle.style.boxShadow=`0 8px 32px ${color}44`;
+  circle.textContent=pct+'%';
+  document.getElementById('resultGrade').textContent=grade;
+  document.getElementById('resultSub').textContent=`أجبت على ${questions.length} سؤال خلال هذه الجلسة`;
+  document.getElementById('rbCorrect').textContent=correctCount;
+  document.getElementById('rbWrong').textContent=wrongCount;
+  document.getElementById('rbPct').textContent=pct+'%';
+  const scores=JSON.parse(localStorage.getItem('scores')||'[]');
+  scores.unshift({pct,correct:correctCount,wrong:wrongCount,total:questions.length,mode:quizMode,date:new Date().toLocaleDateString('ar-EG')});
+  localStorage.setItem('scores',JSON.stringify(scores.slice(0,50)));
+  renderHistory();
+}
+
+function restartQuiz(){
+  document.getElementById('resultsSection').style.display='none';
+  startQuiz();
+}
+
+function showSetup(){
+  document.getElementById('setupSection').style.display='';
+  document.getElementById('quizSection').style.display='none';
+  document.getElementById('resultsSection').style.display='none';
+  renderHistory();
+}
+
+function renderHistory(){
+  const scores=JSON.parse(localStorage.getItem('scores')||'[]');
+  const c=document.getElementById('historyList');
+  if(!scores.length){c.innerHTML='<div style="color:var(--muted);font-size:.85rem;text-align:center;padding:1rem">لا توجد اختبارات سابقة</div>';return;}
+  const modeNames={'complete':'أكمل الآية','choose':'اختر الصحيح','full':'كتابة كاملة','surah':'تسميع سورة'};
+  c.innerHTML=scores.slice(0,10).map(s=>{
+    const grade=s.pct>=90?'ممتاز':s.pct>=75?'جيد جداً':s.pct>=60?'جيد':s.pct>=50?'مقبول':'ضعيف';
+    const color=s.pct>=90?'#1a6b3c':s.pct>=75?'#2d8a56':s.pct>=60?'#c9a227':s.pct>=50?'#b5451a':'#cf222e';
+    return `<div class="history-item">
+      <div class="hi-score" style="color:${color}">${s.pct}%</div>
+      <div class="hi-info">${s.correct}/${s.total} صحيح • ${modeNames[s.mode]||s.mode} • ${s.date}</div>
+      <div class="hi-badge" style="background:${color};color:#fff">${grade}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleTheme(){document.body.classList.toggle('light');const l=document.body.classList.contains('light');localStorage.setItem('theme',l?'light':'dark');document.getElementById('themeIcon').className=l?'fas fa-sun':'fas fa-moon';}
+function openMenu(){document.getElementById('mobileMenu').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
+
+if(localStorage.getItem('theme')==='light'){document.body.classList.add('light');document.getElementById('themeIcon').className='fas fa-sun';}
+renderHistory();
+</script>
+</body>
+</html>
