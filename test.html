@@ -316,7 +316,7 @@ async function startQuiz(){
     questions=shuffle(allPool).slice(0,Math.min(n,allPool.length));
     currentQ=0;correctCount=0;wrongCount=0;
     document.getElementById('loadingSection').style.display='none';
-    document.getElementById('quizSection').style.display='';
+    document.getElementById('quizSection').style.display='block';
     renderQuestion();
   }catch(e){
     document.getElementById('loadingSection').style.display='none';
@@ -451,7 +451,7 @@ function confirmEndQuiz(){
 
 function endQuiz(){
   document.getElementById('quizSection').style.display='none';
-  document.getElementById('resultsSection').style.display='';
+  document.getElementById('resultsSection').style.display='block';
   const totalAnswered=correctCount+wrongCount;
   const pct=questions.length?Math.round(correctCount/questions.length*100):0;
   const circle=document.getElementById('resultCircle');
