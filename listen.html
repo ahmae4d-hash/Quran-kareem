@@ -58,6 +58,17 @@ select:focus,select:hover{border-color:var(--green)}
 .audio-player{margin:.75rem 0}
 audio{width:100%;height:40px;border-radius:8px;outline:none;accent-color:var(--green)}
 .player-controls{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:.75rem}
+.panel-header-mobile {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+}
+@media(max-width:680px) {
+    .panel-header-mobile { display: flex; }
+}
 .ctrl-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif;font-size:.82rem;transition:.2s;display:flex;align-items:center;gap:.35rem}
 .ctrl-btn:hover{background:var(--green);color:#fff;border-color:var(--green)}
 .ctrl-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
@@ -92,7 +103,7 @@ audio{width:100%;height:40px;border-radius:8px;outline:none;accent-color:var(--g
 </head>
 <body>
 <nav>
-  <a href="index.html" class="nav-brand"><i class="fas fa-book-open"></i> المصحف الشامل</a>
+  <a href="index" class="nav-brand"><i class="fas fa-book-open"></i> المصحف الشامل</a>
   <div class="nav-links">
     <a href="index"><i class="fas fa-home"></i> الرئيسية</a>
     <a href="read"><i class="fas fa-quran"></i> القراءة</a>
@@ -127,6 +138,12 @@ audio{width:100%;height:40px;border-radius:8px;outline:none;accent-color:var(--g
 
 <div class="layout">
   <div class="controls-panel" id="controlsPanel">
+      <div class="panel-header-mobile">
+    <span>القراء</span>
+    <button onclick="togglePanel()" style="background:none;border:none;color:var(--text);font-size:1.2rem;cursor:pointer">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
     <div class="panel-title"><i class="fas fa-filter"></i> تصفية القراء</div>
     <div class="filter-tags">
       <span class="tag active" onclick="filterRiwaya('all',this)">الكل</span>
@@ -392,6 +409,17 @@ const params=new URLSearchParams(location.search);
 if(params.get('s'))currentSurah=parseInt(params.get('s'));
 if(params.get('a'))currentAyah=parseInt(params.get('a'));
 buildReciterList();buildSurahTabs();selectSurah();
+// قم بإضافة هذا السطر في نهاية الـ script
+document.addEventListener('click', (event) => {
+    const panel = document.getElementById('controlsPanel');
+    const toggleBtn = document.getElementById('panelToggle');
+    if (panel.classList.contains('open') && 
+        !panel.contains(event.target) && 
+        event.target !== toggleBtn && 
+        !toggleBtn.contains(event.target)) {
+        panel.classList.remove('open');
+    }
+});
 </script>
 </body>
 </html>
